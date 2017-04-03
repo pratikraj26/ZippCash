@@ -1,0 +1,45 @@
+<ion-view view-title="konfime tikè">
+    <ion-content>
+      <div class="text-center padding" ng-show="loading">
+        <ion-spinner class="spinner-balanced"></ion-spinner>
+      </div>
+      <div style = "height:100%;" ng-show="!loading">
+        <div class="bar bar-subheader bar-stable static text-center">
+            <strong class="title">konfime tikè ou</strong>
+        </div>
+        <ion-list>
+          <ion-item style = "float: left;width: 50%;">
+            <b>Number</b>
+          </ion-item>
+          <ion-item style = "float: left;width: 50%;">
+            <b>Amount(Gourde)</b>
+          </ion-item>
+          <div class="clear"></div>
+        </ion-list>
+        <ion-list ng-repeat = "ticket in tickets">
+          <ion-item style = "float: left;width: 50%;">
+            {{ticket.number}}
+          </ion-item>
+          <ion-item style = "float: left;width: 50%;">
+            {{ticket.amount}}
+          </ion-item>
+          <div class="clear"></div>
+        </ion-list>
+        <ion-list>
+          <ion-item style = "float: left;width: 50%;border-top: 1px solid #ccc;">
+            <b>Total(Gourde)</b>
+          </ion-item>
+          <ion-item style = "float: left;width: 50%;border-top: 1px solid #ccc;">
+            <b>{{total_amount}}</b>
+          </ion-item>
+          <div class="clear"></div>
+        </ion-list>
+      </div>
+    </ion-content>
+    <ion-footer-bar class="bar-energized" style = "height:50px;">
+        <button class="footer-button button-green full-width" ng-click ="checkout()" style = "font-weight:bold;height:50px;">
+          <span ng-show = "!checkOutProgress">kesye</span>
+          <ion-spinner ng-show = "checkOutProgress" style = "margin-top:10px;stroke:#fff;fill:#fff;" icon="dots"></ion-spinner>
+        </button>
+    </ion-footer-bar>
+</ion-view>

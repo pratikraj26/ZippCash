@@ -1,0 +1,54 @@
+<ion-view view-title="Edit Profile">
+  <ion-content>
+    <div ng-show = "!loading" style = "height:100%;background:#fff;">
+      <div class = "appointment-detail-header-image" style = "background-image:url('{{serverBase}}/media/images/{{profileDetails.profile_pic}}')">
+        <div class = "gradientDark">
+          <div class = "gradientContentContainer">
+            <h3 ng-show="profileDetails.Name != ''">
+              <span style = "float:left;">
+                {{profileDetails.first_name}}&nbsp;{{profileDetails.last_name}}
+              </span>
+              <span style = "float:right;">
+                <a ng-show = "!updateProfilePicProgress" ng-click="profilePicAction();"><i class = "profile_pic_upload_button ion-camera"></i></a>
+                <ion-spinner ng-show = "updateProfilePicProgress" style = "margin-top:10px;stroke:#fff;fill:#fff;" icon="dots"></ion-spinner>
+              </span>
+              <div class = "clearfix"></div>
+            </h3>
+            <h3 ng-show="profileDetails.Name == ''">Not Updated</h3>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="list">
+          <ion-item class="item-divider item-icon-right text-center"><b>Profile Details</b></ion-item>
+          <label class="item item-input item-stacked-label">
+            <span class="input-label">First Name</span>
+            <input type="text" ng-model="profileDetails.first_name">
+          </label>
+          <label class="item item-input item-stacked-label">
+            <span class="input-label">Last Name</span>
+            <input type="text" ng-model="profileDetails.last_name">
+          </label>
+          <label class="item item-input item-stacked-label">
+            <span class="input-label">Email</span>
+            <input type="text" ng-model="profileDetails.email">
+          </label>
+          <label class="item item-input item-stacked-label">
+            <span class="input-label">Phone</span>
+            <input type="text" ng-model = "profileDetails.phone">
+          </label>
+          <label class="item item-input item-stacked-label">
+            <span class="input-label">Basic Info</span>
+            <textarea ng-model="profileDetails.basic_info"></textarea>
+          </label>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+  <ion-footer-bar class="bar-positive" style = "height:50px;">
+      <button class="footer-button button-green full-width" ng-click="updateProfileDetails()" style = "font-weight:bold;height:50px;">
+        <span ng-show = "!saveProfileProgress">Save</span>
+        <ion-spinner ng-show = "saveProfileProgress" style = "margin-top:10px;stroke:#fff;fill:#fff;" icon="dots"></ion-spinner>
+      </button>
+  </ion-footer-bar>
+</ion-view>

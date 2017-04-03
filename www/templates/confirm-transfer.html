@@ -1,0 +1,47 @@
+<ion-view view-title="Transfè">
+    <ion-content>
+      <div class="text-center padding" ng-show="loading">
+        <ion-spinner class="spinner-balanced"></ion-spinner>
+      </div>
+      <div style = "height:100%;" ng-show="!loading">
+        <div class="item" ng-show="error">
+          <h1 style = "color:#777;text-align:center">{{message}}</h1>
+        </div>
+        <div ng-show="!error" style = "height:100%;" id = "confirm-transfer">
+          <ion-list>
+            <div class="bar bar-subheader bar-stable static text-center">
+              <strong>Confirm user and amount and tap "Transfer".</strong>
+            </div>
+            <ion-item>
+              <p class = "title">
+                <strong>Login ID: </strong>&nbsp;{{receiver_details.login_id}}
+              </p>
+              <p class = "title">
+                <strong>Name: </strong>&nbsp;{{receiver_details.first_name}}&nbsp;{{receiver_details.last_name}}
+              </p>
+<!--               <p class = "title">
+                <strong>Email: </strong>&nbsp;{{receiver_details.email}}
+              </p> -->
+              <p class = "title">
+                <strong>Phone: </strong>&nbsp;{{receiver_details.phone}}
+              </p>
+            </ion-item>
+            <div class="bar bar-subheader bar-stable static text-center">
+              <strong>Amount to transfer(Gourde)</strong>
+            </div>
+            <ion-item>
+              <p class = "text-center">
+                <span style = "font-size:250%;line-height: 150%;">{{receiver_details.amount_to_transfer}}</span>
+              </p>
+            </ion-item>
+          </ion-list>
+        </div>
+      </div>
+    </ion-content>
+    <ion-footer-bar class="bar-positive" style = "height:50px;">
+        <button class="footer-button button-green full-width" ng-click = "processTransfer();" style = "font-weight:bold;height:50px;">
+          <span ng-show = "!transferProgress">Transfer Now</span>
+          <ion-spinner ng-show = "transferProgress" style = "margin-top:10px;stroke:#fff;fill:#fff;" icon="dots"></ion-spinner>
+        </button>
+    </ion-footer-bar>
+</ion-view>

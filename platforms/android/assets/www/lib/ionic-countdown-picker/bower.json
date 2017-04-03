@@ -1,0 +1,26 @@
+{
+  "name": "ionic-countdown-picker",
+  "version": "0.0.3",
+  "authors": [
+    "Johny Jugianto <johny.jugianto@gmail.com>"
+  ],
+  "description": "A countdown picker component for Ionic framework",
+  "main": [
+    "./dist/ionic-countdown-picker.bundle.min.js"
+  ],
+  "keywords": [
+    "countdown picker for ionic"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/l1nknyto",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "ionic": ">=0.9.27"
+  }
+}

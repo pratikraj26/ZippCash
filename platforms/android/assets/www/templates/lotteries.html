@@ -1,0 +1,39 @@
+<ion-view view-title="Boul ki te soti yo">
+    <ion-content>
+      <div class="text-center padding" ng-show="loading">
+        <ion-spinner class="spinner-balanced"></ion-spinner>
+      </div>
+      <div style = "height:100%;" ng-show="!loading">
+        <div class="item" ng-show="error">
+          <h1 style = "color:#cfcfcf;text-align:center">{{message}}</h1>
+        </div>
+        <div ng-show="!error" style = "height:100%;">
+          <ion-list>
+          	<ion-item ng-repeat="lottery in lottery_list" ui-sref="app.lottery-detail({id:lottery.lottery_id})">
+              <p class = "title">
+                <strong>Lotri ID: </strong>&nbsp;{{lottery.lottery_id}}
+              </p>
+              <p class = "title">
+                <strong>{{lottery.lottery_name}}</strong>&nbsp;on {{lottery.lottery_date_time}}
+              </p>
+              <p ng-if="lottery.status == 'active'">
+                <strong>Sitiyasyon:</strong><span class = "balanced">Running</span>
+              </p>
+              <p ng-if="lottery.status == 'pending'">
+                <strong>Sitiyasyon:</strong><span class = "energized">Waiting for result</span>
+              </p>
+              <p ng-if="lottery.status == 'inactive'">
+                <strong>Sitiyasyon:</strong><span class="energized-900">Pa aktif</span>
+              </p>
+          	</ion-item>
+          </ion-list>
+
+          <ion-infinite-scroll on-infinite="loadMore()" distance="5%" ng-if="hasMoreData"></ion-infinite-scroll>
+
+          <div ng-show="!hasMoreData">
+            <h3 style = "color:#cfcfcf;text-align:center">Pa gen lotri plis jwenn</h3>
+          </div>
+        </div>
+      </div>
+    </ion-content>
+</ion-view>

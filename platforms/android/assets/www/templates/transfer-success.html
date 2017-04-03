@@ -1,0 +1,44 @@
+<ion-view view-title="Transfer Successfull" hide-back-button=true>
+    <ion-content>
+      <div class="text-center padding" ng-show="loading">
+        <ion-spinner class="spinner-balanced"></ion-spinner>
+      </div>
+      <div style = "height:100%;" ng-show="!loading">
+        <div class="item" style = "padding: 10px 0px;">
+          <h2 style = "color:#afafaf;text-align:center">Gourde {{receiver_details.amount_to_transfer}} has been transferred successfully.</h2>
+          <ion-list>
+            <ion-item style = "float: left;width: 60%;border:0px">
+              Transfer Status :
+            </ion-item>
+            <ion-item style = "float: left;width: 40%;border:0px">
+              Success
+            </ion-item>
+            <div class="clear"></div>
+          </ion-list>
+          <ion-list>
+            <ion-item style = "float: left;width: 60%;border:0px">
+              Receiver Name :
+            </ion-item>
+            <ion-item style = "float: left;width: 40%;border:0px">
+              {{receiver_details.first_name}}&nbsp;{{receiver_details.last_name}}
+            </ion-item>
+            <div class="clear"></div>
+          </ion-list>
+          <ion-list>
+            <ion-item style = "float: left;width: 60%;border:0px">
+              Amount Transferred :
+            </ion-item>
+            <ion-item style = "float: left;width: 40%;border:0px">
+              {{receiver_details.amount_to_transfer}}
+            </ion-item>
+            <div class="clear"></div>
+          </ion-list>
+        </div>
+      </div>
+    </ion-content>
+    <ion-footer-bar class="bar-positive" style = "height:50px;">
+        <button class="footer-button button-green full-width" ui-sref ="init()" style = "font-weight:bold;height:50px;">
+          <span >Back to home</span>
+        </button>
+    </ion-footer-bar>
+</ion-view>

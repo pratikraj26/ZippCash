@@ -1,0 +1,656 @@
+/* Empty. Add your own CSS if you like */
+/* Utilities */
+.clear{
+  clear: both;
+}
+.link {
+    color: #116262;
+    font-weight: bold;
+}
+
+h4 {
+    color: #116262;
+    font-size: 22px;
+    margin-bottom: 16px;
+}
+
+h4:first-child {
+    border-top: none;
+    padding-top: initial;
+}
+
+.title-bordered {
+    border-top: solid 2px #bbb;
+    padding-top: 30px;
+}
+
+p {
+    color: #555;
+    margin: 0 0 25px;
+}
+
+.no-border {
+    border: none;
+}
+
+.static {
+    position: static;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.border-top {
+    border-top: solid 1px #ccc;
+    padding-top: 30px;
+}
+
+.blue-grey-900 {
+    background-color: #263238 !important;
+    color: #fff;
+}
+/* Menu */
+
+.menu .bar.bar-header.expanded {
+    background-image: url('../img/NavBarBg.png');
+    /*background-size: 120%;*/
+    background-position: 0%;
+    transition: all .5s ease-in-out;
+}
+
+.menu.menu-left * {
+    font-weight: bold;
+    font-size: 15px;
+}
+.popup-body {
+  font-size: 13px;
+}
+
+.item-radio input:checked ~ .item-content {
+    background: transparent;
+}
+
+.menu-open .ion-navicon {
+    transform: rotate(-360deg);
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+
+.menu-open .ion-navicon:before {
+    content: "\f2ca";
+}
+
+.item.item-radio .radio-icon {
+    opacity: 1;
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+
+.item.item-radio:active .radio-icon {
+    opacity: 0;
+    transform: scale(1.6);
+    -webkit-transition: all 0.1s ease-in-out;
+    transition: all 0.1s ease-in-out;
+}
+
+.directions.button-bar {
+    margin: 0 auto;
+    width: 33.333%;
+}
+
+.directions.button-bar button {
+    line-height: 26px;
+}
+
+.ion-arrow-right-c.top-left:before {
+    transform: rotate(-135deg);
+}
+
+.ion-arrow-right-c.top-right:before {
+    transform: rotate(-45deg);
+}
+
+.ion-arrow-right-c.bottom-left:before {
+    transform: rotate(-225deg);
+}
+
+.ion-arrow-right-c.bottom-right:before {
+    transform: rotate(45deg);
+}
+
+#modal {
+    background-color: #ef4e3a;
+    border-radius: 100%;
+    box-shadow: 0 -6px 12px rgba(0, 0, 0, 0.2);
+    position: fixed;
+    height: 50%;
+    bottom: 0;
+    opacity: 0;
+    width: 700px;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+.button {
+    overflow: hidden !important;
+    font-size: 12px;
+}
+
+.expand #modal {
+    background-color: #DBDBDB;
+    border-radius: 0;
+    border-top: solid 4px #ef4e3a;
+    opacity: 1;
+    z-index: 9;
+}
+.platform-android .action-sheet .action-sheet-title {
+  color : #222;
+  text-align: center;
+  font-size: 13px;
+  border-color: #d1d3d6;
+  background-color: transparent;
+}
+.platform-android .action-sheet .button {
+  text-align: center;
+  font-size: 13px;
+  border-color: #d1d3d6;
+  background-color: transparent;
+  color: #007aff;
+}
+.platform-android .action-sheet .action-sheet-title, .platform-android .action-sheet .button i{
+  font-size: 13px;
+}
+
+.popover {
+    left: initial !important;
+    right: 16px !important;
+    top: 16px !important;
+}
+.platform-android .popover{
+  margin-top:-25px;
+}
+
+.list{
+  border-bottom: 0px solid #ccc;
+}
+.error p{
+  text-align: center;
+  color: #ef3e2c;
+}
+.next-jackpot .logo {
+  position: absolute;
+  background: url(../img/icon-sprite.png) no-repeat -213px -292px;
+  width: 284px;
+  height: 65px;
+  left: 50%;
+  top: -35px;
+  margin-left: -142px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 16px;
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 24px;
+  padding-top: 20px;
+}
+.winner {
+  position: relative;
+  background: url(../img/icon-sprite.png) no-repeat -213px -292px;
+  width: 284px;
+  height: 65px;
+  left: 50%;
+  top: 5px;
+  margin-left: -142px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 16px;
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 24px;
+  padding-top: 20px;
+}
+.next-jackpot{
+  height: 100%;
+  /*margin-top: 40px;*/
+}
+.ticker{
+  position:relative;
+  float:left;
+  background:#028B55;
+  width:98%;
+  margin:1%;
+  /*margin-top: 40px;*/
+  height: 98%;
+  border-radius:5px;
+  overflow:hidden;
+  padding-bottom: 25px;
+  box-shadow: none;
+  background-image: url('../img/BodyBgWithRays.png');
+  background-size: cover;
+  background-position: center;
+}
+.ticker-title{
+  font-size: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  width: 100%;
+  color: #028B55;
+  margin: 10px 0px 0px 0px;
+  text-align: center;
+}
+.ticker img{
+
+}
+.ticker .title{
+  float:left;
+  color:#fff;
+  text-transform:uppercase;
+  font-size:33px
+}
+.ticker .time{
+  float:left;
+  color:#ef3e2c;
+  margin:64px 0 0 83px
+}
+.ticker .time li{
+  display:inline;
+  float:left;
+  font-size:24px;
+  margin-left:6px;
+  width:38px;
+  text-align:center
+}
+.ticker .play-button{
+  float:right;
+  margin:10px 6px 0 0
+}
+.next-jackpot .title{
+  float:left;
+  text-align:center;
+  color:#fff;
+  font-size:12px;
+  width:100%;
+  margin:50px 0 0;
+  font-weight:700
+}
+#counters{
+  display: block;
+  position: relative;
+  height: 42px;
+  float: left;
+  left: 50%;
+  margin-left: -110px;
+  margin-top: 10px;
+}
+.ticket-counter .counter-inner,.counter-inner{
+  position:relative;
+  width:100%;
+  height:42px;
+  float:left;
+  font:22px/42px "Trebuchet MS",arial,sans-serif;
+  text-align:center;
+  color:#028B55;
+  font-weight:700;
+  background:#fff;
+  border-radius:5px
+}
+.ticket-counter .counter-inner{
+  background:none;
+  margin:0 2px;
+  line-height:36px
+}
+.counters-outer{
+  width:40px;
+  text-align:center;
+  display:block;
+  float:left;
+  margin:0 2px;
+  color:#fff
+}
+.counters-text{
+  font-size:11px;
+  line-height:18px;
+  display:block;
+  color: #028B55;
+}
+.button-bright{
+  background: #ffd10f;
+  background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#ffec83),color-stop(50%,#ffea6a),color-stop(51%,#ffd629),color-stop(100%,#e8be10));
+  background: -webkit-linear-gradient(top, #ffec83 0%,#ffea6a 50%,#ffd629 51%,#e8be10 100%);
+  background: linear-gradient(to bottom, #ffec83 0%,#ffea6a 50%,#ffd629 51%,#e8be10 100%);
+  text-decoration: none;
+  border-radius: 8px;
+  border-bottom: solid 1px #ddb610!important;
+  border-right: solid 1px #ddb610!important;
+  text-align: center;
+  padding: 3px 10px;
+  font-weight: 700;
+  text-transform: none;
+}
+.button-red{
+  background: #ef3e2c;
+  background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#ED6C61),color-stop(50%,#EA4C41),color-stop(51%,#E83930),color-stop(100%,#ef3e2c));
+  background: -webkit-linear-gradient(top, #ED6C61 0%,#EA4C41 50%,#E83930 51%,#ef3e2c 100%);
+  background: linear-gradient(to bottom, #ED6C61 0%,#EA4C41 50%,#E83930 51%,#ef3e2c 100%);
+  text-decoration: none;
+  border-radius: 8px;
+  border-bottom: solid 1px #E52620!important;
+  border-right: solid 1px #E52620!important;
+  text-align: center;
+  padding: 3px 10px;
+  font-weight: 700;
+  text-transform: none;
+  color: #fff;
+}
+.button-green{
+  background: #ef3e2c;
+/*  background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#ED6C61),color-stop(50%,#EA4C41),color-stop(51%,#E83930),color-stop(100%,#ef3e2c));
+  background: -webkit-linear-gradient(top, #ED6C61 0%,#EA4C41 50%,#E83930 51%,#ef3e2c 100%);*/
+  background: linear-gradient(to bottom, #92fd15 0%,#6eab26 50%,#67962f 51%,#4c7702 100%);
+  text-decoration: none;
+  border-radius: 8px;
+  border-bottom: solid 1px #4c7702!important;
+  border-right: solid 1px #4c7702!important;
+  text-align: center;
+  padding: 3px 10px;
+  font-weight: 700;
+  text-transform: none;
+  color: #fff;
+}
+
+.list .item {
+    border-bottom: 1px solid #ddd;
+    min-height: 48px;
+    text-align: left;
+}
+.ball {
+    background: url(../img/ball-sprite.png) transparent 0 0 no-repeat;
+}
+.ball, .lucky-star, .bonus-ball, .jolly, .superstar, .super-ball, .cash-ball {
+    width: 55px;
+    height: 58px;
+    text-align: center;
+    font: bold 30px/55px Arial,Helvetica,sans serif;
+    color: #FFF;
+    padding: 0;
+    vertical-align: top;
+    margin: 0px auto;
+    display: block;
+    font-size: 130%;
+}
+.lucky-star {
+    background: url(../img/ball-sprite.png) transparent 0 -58px no-repeat;
+    color: #000;
+}
+
+
+#register .item,
+#transfer-credit .item,
+#login .item{
+  padding: 15px 5px;
+  border: 0px;
+}
+#transfer-credit .item input.ios,
+#register .item input.ios,
+#login .item input.ios{
+  padding: 20px 10px;
+  font-style: italic;
+  border: 0px;
+  border-bottom: 1px solid #bbb;
+  font-size: 15px;
+}
+#profile-details p.profile-detail-content{
+  font-size: 16px;
+  font-weight: 100;
+}
+
+#transfer-credit .item input.ios {
+    border-bottom: 1px solid #bbb;
+    /*padding: 30px 10px;
+    font-size: 17px;*/
+    font-weight: normal;
+    text-align: center;
+    font-size: 150%;
+}
+#confirm-transfer .bar.bar-stable {
+  font-weight: 100;
+  font-size: 14px;
+  line-height: 25px;
+  padding-top: 10px;
+}
+.error{
+  color: rgba(231, 76, 60, 1);
+  /*background-color: rgba(231, 76, 60, 0.3);*/
+  border: 1px solid;
+  border-color: rgba(231, 76, 60, 0.88);
+  /*border-radius: 7px;*/
+  /*box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.3);*/
+  padding: 0.8em;
+}
+
+.appointment-detail-header-image{
+  height: 270px;
+  background-size: cover;
+  background-position: center;
+}
+.gradientDark{
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  /* can be treated like a fallback */
+  background-color: rgba(0,0,0,0.6);
+
+  /* will be "on top", if browser supports it */
+  background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.4));
+
+  /* these will reset other properties, like background-position, but it does know what you mean */
+  background: rgba(0,0,0,0.6);
+  background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.7));
+}
+.gradientContentContainer{
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+}
+.gradientContentContainer h3{
+  color: #fff;
+  padding: 5px;
+  font-size: 35px;
+  font-weight: 100;
+}
+.list .item {
+    border-bottom: 1px solid #ccc;
+    /*color: #aaa;*/
+}
+.popover {
+    left: initial !important;
+    right: 16px !important;
+    top: 85px !important;
+    height: 180px;
+}
+.popover .item-icon-left .icon {
+    font-size: 20px;
+}
+i.profile_pic_upload_button{
+  font-size: 20px;
+    color: #387ef5;
+    background: #fff;
+    display: block;
+    padding: 4px 7px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+button.full-width {
+  width: 100%;
+}
+
+/*CSS OVERRIDE*/
+#greenGradient {
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#8db59a+0,028b55+99,bad1bd+100 */
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#d1ff18+0,35f418+99,bad1bd+100 */
+  background: rgb(209,255,24); /* Old browsers */
+  background: -moz-linear-gradient(top,  rgba(209,255,24,1) 0%, rgba(53,244,24,1) 99%, rgba(186,209,189,1) 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top,  rgba(209,255,24,1) 0%,rgba(53,244,24,1) 99%,rgba(186,209,189,1) 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom,  rgba(209,255,24,1) 0%,rgba(53,244,24,1) 99%,rgba(186,209,189,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d1ff18', endColorstr='#bad1bd',GradientType=0 ); /* IE6-9 */
+
+/*  background-image: url('../img/BodyBgWithoutRays.png');
+  background-position: center;
+  background-size: cover;*/
+}
+.scroll-content {
+  background: rgba(0,0,0,0);
+}
+.scroll {
+    display: table;
+    width: 100%;
+}
+.bar {
+  box-shadow: none;
+}
+.bar.bar-energized.bar-footer {
+  background: transparent;
+  border: none;
+}
+.footer-button {
+  width: 100%;
+}
+.item p {
+  /*color: #fff;*/
+}
+
+.bar.bar-stable {
+  background: transparent;
+}
+.bar.bar-stable .title,
+.bar.bar-stable p {
+  /*color: #fff;*/
+}
+
+
+
+
+
+
+
+/*PAGE WISE CSS*/
+#landingPage{
+  background-image: url('../img/Splash2208x2208LogoTop.png');
+  background-position: center;
+  background-size: cover;
+}
+#landingPage .button-container{
+  position: absolute;
+  bottom: 20%;
+  width: 100%;
+  text-align: center;
+  padding: 5%;
+}
+#landingPage .button-container button{
+  margin-bottom: 10px;
+}
+
+#register,
+#login {
+  display: table-cell;
+  /*vertical-align: middle;*/
+  padding: 5%;
+}
+#digitContainer span{
+  width: 20%;
+  margin: 1%;
+  height: 45px;
+  margin-top: 20px;
+  border-bottom: 4px solid #dfdfdf;
+  display: inline-block;
+  text-align: center;
+}
+#digitContainer span i {
+  visibility: hidden;
+  font-size: 30px;
+}
+#digitContainer span.active {
+  border-bottom: 4px solid #4c7702;
+}
+#digitContainer span.active i {
+  visibility: visible;
+}
+
+
+
+
+
+
+/*PHONE BUTTON*/
+body {
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+}
+#phone {   
+  /*background:url(http://blogs.which.co.uk/technology/files/2013/03/iphone_5_hero.jpg) no-repeat 50.4% top;*/
+  background-size: contain;
+  height:655px;
+}
+#wrapper {
+  width:100%;
+  margin:0px auto;
+  position: absolute;
+  bottom: 80px;
+  background:#fff;
+}
+#centerAlign {
+  width: 252px;
+  position: relative;
+  margin: 0px auto;
+}
+#centerAlign button{
+  margin-top: 10px;
+}
+.key {
+  border-radius: 50px 50px 50px 50px;
+  color:#444;
+  width:70px;
+  height:70px;
+  text-align:center;
+  font-size:30px;
+  float:left;
+  box-sizing:border-box;
+  padding:20px 0 0 0;
+  margin:0 7px 10px 7px;
+  border:1px solid #444;
+  cursor:pointer;
+}
+.key i {
+  padding: 5px 0 0 0;
+}
+.key span {
+  display:block;
+  color:#444;
+  text-align:center;
+  font-size:12px;
+  text-transform:uppercase;
+}
+.key.special {
+  line-height:60px;
+}
+.key.nb {
+  border:none;
+}
+.key.phone {
+  background:#5CDB74;
+  border:none;
+  color:#FFF;
+  line-height:60px;
+  font-size:40px;
+}
+.clear {
+  clear:both;
+}
+.forget-password{
+  margin-top: 30px;
+}
+.forget-password a{
+  text-decoration: none;color: #0B610B;font-size: 21px;
+}

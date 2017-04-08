@@ -1,0 +1,50 @@
+<div>
+  <div class="row">
+
+    <span class="button-small col col-20" ng-if="useDays">
+      <span class="countdownPickerLabel">{{daysLabel}}</span>
+      <button type="button" class="button button-clear button-small button-dark countdownPickerArrows marginBottom10"
+              ng-click="increaseDays()">
+        <i class="icon ion-chevron-up"></i></button>
+      <input type="text" placeholder="00" ng-model="time.days" class="ipBoxes countdownPickerBoxText" disabled>
+      <button type="button" class="button button-clear button-small button-dark countdownPickerArrows marginTop10"
+              ng-click="decreaseDays()">
+        <i class="icon ion-chevron-down"></i></button>
+    </span>
+
+    <label class="col countdownPickerColon" ng-if="useDays"> : </label>
+
+    <span class="button-small col col-20">
+      <span class="countdownPickerLabel">{{hoursLabel}}</span>
+      <button type="button" class="button button-clear button-small button-dark countdownPickerArrows marginBottom10"
+              ng-click="increaseHours()">
+        <i class="icon ion-chevron-up"></i></button>
+      <input type="text" placeholder="00" ng-model="time.hours" class="ipBoxes countdownPickerBoxText" disabled>
+      <button type="button" class="button button-clear button-small button-dark countdownPickerArrows marginTop10"
+              ng-click="decreaseHours()">
+        <i class="icon ion-chevron-down"></i></button>
+    </span>
+
+    <label class="col countdownPickerColon"> : </label>
+
+    <span class="button-small col col-20">
+      <span class="countdownPickerLabel">{{minutesLabel}}</span>
+      <button type="button" class="button button-clear button-small button-dark countdownPickerArrows marginBottom10"
+              ng-click="increaseMinutes()"><i class="icon ion-chevron-up"></i></button>
+      <input type="text" placeholder="00" ng-model="time.minutes" class="ipBoxes countdownPickerBoxText" disabled>
+      <button type="button" class="button button-clear button-small button-dark countdownPickerArrows marginTop10"
+              ng-click="decreaseMinutes()"><i class="icon ion-chevron-down"></i></button>
+    </span>
+
+    <label class="col countdownPickerColon" ng-if="useSeconds"> : </label>
+
+    <span class="button-small col col-20" ng-if="useSeconds">
+      <span class="countdownPickerLabel">{{secondsLabel}}</span>
+      <button type="button" class="button button-clear button-small button-dark countdownPickerArrows marginBottom10"
+              ng-click="increaseSeconds()"><i class="icon ion-chevron-up"></i></button>
+      <input type="text" placeholder="00" ng-model="time.seconds" class="ipBoxes countdownPickerBoxText" disabled>
+      <button type="button" class="button button-clear button-small button-dark countdownPickerArrows marginTop10"
+              ng-click="decreaseSeconds()"><i class="icon ion-chevron-down"></i></button>
+    </span>
+  </div>
+</div>

@@ -16,6 +16,11 @@
         <input type="text" ng-model="data.country.dial_code" class = "ios" style = "width:20%;float:left;" disabled>
         <input type="tel" placeholder = "Nimero telefòn ou" ng-model = "data.phone" class = "ios" style = "width:78%;float:right;">
       </div>
+      <div class="item" style = "border: 0px;">      
+        <ionic-datepicker date="currentDate" min="minDate" max="maxDate" callback="datePickerCallback">
+            <input type = "text" class="ios" placeholder="Date of Birth" ng-model="data.dob">
+        </ionic-datepicker>
+      </div>
       <div class="item" style = "border: 0px;">
         <input type="password" placeholder = "Shwazi yon modpas ke ou pap bliye" ng-model = "data.password" class = "ios">
       </div>

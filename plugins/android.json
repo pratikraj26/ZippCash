@@ -7,9 +7,6 @@
         "files": {}
     },
     "installed_plugins": {
-        "cordova-plugin-console": {
-            "PACKAGE_NAME": "com.ionicframework.zippcash584695"
-        },
         "cordova-plugin-crop": {
             "PACKAGE_NAME": "com.ionicframework.zippcash584695"
         },

@@ -1,0 +1,36 @@
+<ion-view view-title="Report Problem">
+    <ion-content>
+      <div class="text-center padding" ng-show="loading">
+        <ion-spinner class="spinner-balanced"></ion-spinner>
+      </div>
+      <div style = "height:100%;" ng-show="!loading">
+        <div style = "height:100%;" id = "report-problem">
+          <ion-list>
+            <div class="bar bar-subheader bar-stable static text-center" style = "height:80px;">
+              <p style = "margin-top: 15px;font-size: 15px;">Having issue ? Got any suggestion ? Write to us.<br><strong>We are happy to help you!!</strong></p>
+            </div>
+            <div class="item" ng-show = "error" style = "border: 0px;padding: 15px 4px;">
+              <div class = "error">{{error_message}}</div>
+            </div>
+            <div class="item" style = "border: 0px;padding: 15px 4px;">
+              <select ng-model = "data.type" class = "ios">
+                <option ng-selected="true">Report an Issue</option>
+                <option>Suggestion</option>
+              </select>
+            </div>
+            <br>
+            <div class="item" style = "border: 0px;padding: 15px 4px;">
+              <textarea ng-model = "data.issue" style="width: 99%;margin: 1%;border: 1px solid #ddd;padding: 5px;min-height: 150px;resize: none;" placeholder="Description">
+              </textarea>
+            </div>
+          </ion-list>
+        </div>
+      </div>
+    </ion-content>
+    <ion-footer-bar class="bar-energized" style = "height:50px;">
+        <button ng-disabled="reportProgress" class="footer-button button-green full-width" ng-click = "reportIssue();" style = "font-weight:bold;height:50px;">
+          <span ng-show = "!reportProgress">Report</span>
+          <ion-spinner ng-show = "reportProgress" style = "margin-top:10px;stroke:#fff;fill:#fff;" icon="dots"></ion-spinner>
+        </button>
+    </ion-footer-bar>
+</ion-view>

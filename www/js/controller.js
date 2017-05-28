@@ -1,6 +1,6 @@
 app
 
-.controller('InitCtrl', function ($scope, $rootScope, $stateParams, $state, $ionicLoading, $ionicModal, $q, internalDb, Api) {
+.controller('InitCtrl', function ($scope, $rootScope, $stateParams, $state, $ionicHistory, $ionicLoading, $ionicModal, $q, internalDb, Api) {
   $scope.$on( "$ionicView.enter", function( scopes, states ){
     $ionicLoading.show({
         template: '<div class="loader"><svg class="circular"><circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/></svg></div>'
@@ -20,11 +20,14 @@ app
       }
     }
   });
+  $rootScope.currentCountryName = null;
+  $rootScope.currentCountryCode = null;
   $rootScope.currentUser = null;
   $rootScope.securePasscode = null;
   $rootScope.securePasscodeLength = 0;
   $rootScope.passcodeVerified = false;
   $rootScope.passcodeError = null;
+  $rootScope.passcodeAttempt = 0;
   $rootScope.token = null;
   $rootScope.loggedIn = false;
   $rootScope.isOnline = true;
@@ -77,6 +80,9 @@ app
                   $ionicLoading.hide();
                   $rootScope.checkingLoggedIn = false;
                   if(data != null){
+                    $ionicHistory.nextViewOptions({
+                      disableBack: true
+                    });
                     $rootScope.currentUser = data;
                     $rootScope.token = data.token;
                     $rootScope.loggedIn = true;
@@ -117,7 +123,8 @@ app
         controller: 'user',
         action: 'verifyPasscode',
         user_id : $rootScope.currentUser.user_id,
-        passcode: $rootScope.securePasscode
+        passcode: $rootScope.securePasscode,
+        passcodeAttempt: $rootScope.passcodeAttempt
       }
       if( $rootScope.isOnline ){
         Api.processRequest(data)
@@ -132,6 +139,7 @@ app
           } else {
             $rootScope.securePasscode = null;
             $rootScope.securePasscodeLength = 0;
+            $rootScope.passcodeAttempt++;
             $rootScope.passcodeError = response.data;
             deferred.reject(response);
           }
@@ -162,7 +170,6 @@ app
       $rootScope.securePasscode = digit;
       $rootScope.securePasscodeLength++;
     }
-    console.log($rootScope.securePasscode);
   }
   $rootScope.deletePasscodeDigit = function(){
     if($rootScope.securePasscode != null){
@@ -171,7 +178,6 @@ app
         $rootScope.securePasscodeLength--;
       }
     }
-    console.log($rootScope.securePasscode);
   }
 
 
@@ -282,16 +288,52 @@ app
   $scope.error = '';
   IndexFactory.getCountries( $scope )
   .then( function(data){
-    $scope.loading = false;
+    $scope.setCurrentCountry();
   });
   $scope.data = {};
+
+  $scope.setCurrentCountry = function(){
+    if($rootScope.currentCountryName == null && $rootScope.currentCountryCode == null){
+      console.log("Getting CUrrent Position");
+      navigator.geolocation.getCurrentPosition(function (position) {
+        console.log(position);
+        var locCurrent = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ 'latLng': locCurrent }, function (results, status) {
+          console.log(results);
+          var locItemCount = results.length;
+          var locCountryNameCount = locItemCount - 1;
+          for(var n = 0; n < results[locCountryNameCount].address_components.length; n++){
+            if(results[locCountryNameCount].address_components[n].types[0] == 'country'){
+              $rootScope.currentCountryCode = results[locCountryNameCount].address_components[n].short_name;
+              $rootScope.currentCountryName = results[locCountryNameCount].address_components[n].long_name;
+            }
+          }
+          for (var i = 0; i < $scope.countries.length; i++) {
+            if ($scope.countries[i]['code'] === $rootScope.currentCountryCode) {
+              $scope.data.country = $scope.countries[i];
+              console.log($scope.data.country);
+              break;
+            }
+          }
+        });
+      });
+    }else{
+      for (var i = 0; i < $scope.countries.length; i++) {
+        if ($scope.countries[i]['code'] === $rootScope.currentCountryCode) {
+          $scope.data.country = $scope.countries[i];
+          break;
+        }
+      }
+    }
+  }
 
   $scope.authenticateUser = function(){
     $scope.authenticateUserProgress = true;
     var data = {
       controller: 'user',
       action: 'authenticateUser',
-      email : $scope.data.email,
+      email : $scope.data.country.dial_code + $scope.data.phone,
       password: $scope.data.password
     }
 
@@ -375,9 +417,51 @@ app
   $scope.error = '';
   IndexFactory.getCountries( $scope )
   .then( function(data){
-    $scope.loading = false;
+    $scope.setCurrentCountry();
   });
   $scope.data = {};
+
+  $scope.setCurrentCountry = function(){
+    if($rootScope.currentCountryName == null && $rootScope.currentCountryCode == null){
+      console.log("Getting CUrrent Position");
+      navigator.geolocation.getCurrentPosition(function (position) {
+        console.log(position);
+        var locCurrent = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ 'latLng': locCurrent }, function (results, status) {
+          console.log(results);
+          var locItemCount = results.length;
+          var locCountryNameCount = locItemCount - 1;
+          for(var n = 0; n < results[locCountryNameCount].address_components.length; n++){
+            if(results[locCountryNameCount].address_components[n].types[0] == 'country'){
+              $rootScope.currentCountryCode = results[locCountryNameCount].address_components[n].short_name;
+              $rootScope.currentCountryName = results[locCountryNameCount].address_components[n].long_name;
+            }
+          }
+          for (var i = 0; i < $scope.countries.length; i++) {
+            if ($scope.countries[i]['code'] === $rootScope.currentCountryCode) {
+              $scope.data.country = $scope.countries[i];
+              console.log($scope.data.country);
+              break;
+            }
+          }
+        });
+      });
+    }else{
+      for (var i = 0; i < $scope.countries.length; i++) {
+        if ($scope.countries[i]['code'] === $rootScope.currentCountryCode) {
+          $scope.data.country = $scope.countries[i];
+          break;
+        }
+      }
+    }
+  }
+
+  $scope.datePickerCallback = function (val) {
+    if (val) { 
+      $scope.data.dob = val.getFullYear() + '-' + ("0" + (val.getMonth() + 1 )).slice(-2) + '-' + ("0" + val.getDate()).slice(-2);
+    }
+  };
 
   $scope.verifyPhoneNumber = function(){
     $scope.verifyPhoneNumberProgress = true;
@@ -388,21 +472,21 @@ app
       country_code : $scope.data.country.dial_code,
       first_name : $scope.data.first_name,
       last_name : $scope.data.last_name,
-      phone : $scope.data.phone,
+      phone : $scope.data.country.dial_code + $scope.data.phone,
+      dob : $scope.data.dob,
       password: $scope.data.password
     }
 
     if( $rootScope.isOnline ){
       Api.processRequest(data)
-      .then( function(data){
-        console.log(data);
+      .then( function(response){
         $scope.verifyPhoneNumberProgress = false;
-        if( data.success != undefined && data.success == true ){
-          window.localStorage.setItem('phone', $scope.data.phone);
-          window.localStorage.setItem('country_code', $scope.data.country.dial_code);
+        if( response.success != undefined && response.success == true ){
+          window.localStorage.setItem('phone', data.phone);
+          window.localStorage.setItem('country_code', data.country_code);
           $state.go('verify');
         } else {
-          $cordovaDialogs.alert(data.data, 'Error', 'Ok')
+          $cordovaDialogs.alert(response.data, 'Error', 'Ok')
           .then(function() {
             // callback success
           });
@@ -441,28 +525,63 @@ app
   $scope.error = '';
   IndexFactory.getCountries( $scope )
   .then( function(data){
-    $scope.loading = false;
+    $scope.setCurrentCountry();
   });
   $scope.data = {};
+
+  $scope.setCurrentCountry = function(){
+    if($rootScope.currentCountryName == null && $rootScope.currentCountryCode == null){
+      console.log("Getting CUrrent Position");
+      navigator.geolocation.getCurrentPosition(function (position) {
+        console.log(position);
+        var locCurrent = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ 'latLng': locCurrent }, function (results, status) {
+          console.log(results);
+          var locItemCount = results.length;
+          var locCountryNameCount = locItemCount - 1;
+          for(var n = 0; n < results[locCountryNameCount].address_components.length; n++){
+            if(results[locCountryNameCount].address_components[n].types[0] == 'country'){
+              $rootScope.currentCountryCode = results[locCountryNameCount].address_components[n].short_name;
+              $rootScope.currentCountryName = results[locCountryNameCount].address_components[n].long_name;
+            }
+          }
+          for (var i = 0; i < $scope.countries.length; i++) {
+            if ($scope.countries[i]['code'] === $rootScope.currentCountryCode) {
+              $scope.data.country = $scope.countries[i];
+              console.log($scope.data.country);
+              break;
+            }
+          }
+        });
+      });
+    }else{
+      for (var i = 0; i < $scope.countries.length; i++) {
+        if ($scope.countries[i]['code'] === $rootScope.currentCountryCode) {
+          $scope.data.country = $scope.countries[i];
+          break;
+        }
+      }
+    }
+  }
 
   $scope.sendTempVerificationCode = function(){
     $scope.verifyPhoneNumberProgress = true;
     var data = {
       controller: 'user',
       action: 'sendTempVerificationCode',
-      phone : $scope.data.phone
+      phone : $scope.data.country.dial_code + $scope.data.phone,
     }
 
     if( $rootScope.isOnline ){
       Api.processRequest(data)
-      .then( function(data){
-        console.log(data);
+      .then( function(response){
         $scope.verifyPhoneNumberProgress = false;
-        if( data.success != undefined && data.success == true ){
-          window.localStorage.setItem('phone', $scope.data.phone);
+        if( response.success != undefined && response.success == true ){
+          window.localStorage.setItem('phone', data.phone);
           $state.go('forget-password-verify');
         } else {
-          $cordovaDialogs.alert(data.data, 'Error', 'Ok')
+          $cordovaDialogs.alert(response.data, 'Error', 'Ok')
           .then(function() {
             // callback success
           });
@@ -517,7 +636,6 @@ app
     if( $rootScope.isOnline ){
       Api.processRequest(data)
       .then( function(data){
-        console.log(data);
         $scope.verifyVerificationCodeProgress = false;
         if( data.success != undefined && data.success == true ){
           window.localStorage.setItem('temp_verification_code', $scope.data.temp_verification_code);
@@ -746,7 +864,7 @@ app
   }
 })
 
-.controller('HomeCtrl', function ($scope, $rootScope, $state, $stateParams, $cordovaDialogs, $ionicLoading, moment, ionicMaterialInk, Api, internalDb) {
+.controller('HomeCtrl', function ($scope, $rootScope, $state, $ionicHistory, $stateParams, $cordovaDialogs, $ionicLoading, moment, ionicMaterialInk, Api, internalDb) {
   $scope.loading = true;
   $scope.showTimer = false;
   $scope.waiting = false;
@@ -763,6 +881,7 @@ app
     $scope.waiting = false;
     $scope.error = false;
     $rootScope.current_lottery = null;
+    // $ionicHistory.clearHistory();
 
     if(!$rootScope.initExecuted){
       $state.go("init");
@@ -781,7 +900,6 @@ app
         });
         Api.getNextLottery()
         .then(function(response){
-          console.log(response);
           $ionicLoading.hide();
           $scope.loading = false;
           if(response.success == true){
@@ -890,31 +1008,47 @@ app
     $rootScope.tickets.length = 0;
     $scope.messages.length = 0;
     $scope.error = false;
+
     for(var i = 0; i < $scope.ticket.length; i++){
       if($scope.ticket[i].amount == null || $scope.ticket[i].number == null){
-        $scope.error = true;
-        $scope.messages.push("Null and/or zero values are not allowed.");
-        break;
+        // $scope.error = true;
+        // $scope.messages.push("Null and/or zero values are not allowed.");
+        // break;
+        continue;
       }
       if($scope.ticket[i].amount == "" || $scope.ticket[i].number == ""){
-        $scope.error = true;
-        $scope.messages.push("Null values are not allowed.");
-        break;
+        // $scope.error = true;
+        // $scope.messages.push("Null values are not allowed.");
+        // break;
+        continue;
       }
-      if(!$scope.error && ( $scope.ticket[i].amount < 1 || $scope.ticket[i].number < 1 )){
+      if(!$scope.error && ( $scope.ticket[i].amount < 1 )){
         $scope.error = true;
         $scope.messages.push("Negative values are not allowed.");
         break;
       }
-      if(!$scope.error && ( $scope.ticket[i].number > 9999 )){
+      if(!$scope.error && ( $scope.ticket[i].number.toString().length > 5 )){
         $scope.error = true;
-        $scope.messages.push("Maximum 4 digit numbers are allowed.");
+        $scope.messages.push("Invalid ticket number.");
         break;
       }
       if(!$scope.error){
         $rootScope.tickets.push($scope.ticket[i]);
       }
     }
+
+    var numberList = {};
+    
+    for(var i = 0; i < $scope.ticket.length; i++){
+      if(numberList[$scope.ticket[i].number] === undefined){
+        numberList[$scope.ticket[i].number] = true;
+      }else{
+        $scope.error = true;
+        $scope.messages.push("Duplicate values are not allowed.");
+        break;
+      }
+    }
+
     if($rootScope.tickets.length == 0){
       if(!$scope.error){
         $scope.messages.push("Please enter the number and amount you want to play for.");
@@ -949,7 +1083,7 @@ app
   };
 })
 
-.controller('ConfirmTktCtrl', function ($scope, $rootScope, $state, $stateParams, $cordovaDialogs, $ionicLoading, $ionicHistory, ionicMaterialInk, Api, paypalPG) {
+.controller('ConfirmTktCtrl', function ($scope, $rootScope, $state, $stateParams, $ionicHistory, $cordovaDialogs, $ionicLoading, $ionicHistory, ionicMaterialInk, Api, paypalPG) {
   // $ionicHistory.nextViewOptions({
   //    disableAnimate: true,
   //    disableBack: true
@@ -1031,14 +1165,24 @@ app
                           }else{
                             $cordovaDialogs.alert(response.error[0], 'Error', 'Ok')
                             .then(function() {
-                              $state.go('app.checkoutFailed');
+                              if(response.redirect){
+                                $ionicHistory.nextViewOptions({
+                                  disableBack: true
+                                });
+                                $state.go("app.home");
+                              }else{
+                                $state.go("app.checkoutFailed");
+                              }
                             });
                           }
                         })
                         .catch(function(err){
                           $cordovaDialogs.alert(err.message, 'Error', 'Ok')
                           .then(function() {
-                            $state.go('app.checkoutFailed');
+                              $ionicHistory.nextViewOptions({
+                                disableBack: true
+                              });
+                              $state.go("app.home");
                           });
                         })
                       }else{
@@ -1152,16 +1296,14 @@ app
   });
 
   $scope.verifyPasscode = function(){
-    var response = $rootScope.verifyPasscode()
-    response
+    $rootScope.verifyPasscode()
     .then(function(response){
       if(response.success){
         $scope.processTransaction()
       }
     })
     .catch(function(err){
-      console.log(err)
-      $rootScope.passcodeError = "Invalid code. Please try again"
+      $rootScope.passcodeError = err.data;
     })
   }
 
@@ -1204,12 +1346,22 @@ app
                             if(response.success){
                               $state.go("app.checkoutSuccess");
                             }else{
-                              $state.go("app.checkoutFailed");
+                              if(response.redirect){
+                                $ionicHistory.nextViewOptions({
+                                  disableBack: true
+                                });
+                                $state.go("app.home");
+                              }else{
+                                $state.go("app.checkoutFailed");
+                              }
                             }
                           })
                           .catch(function(error){
                             $ionicLoading.hide();
-                            $state.go("app.checkoutFailed");
+                            $ionicHistory.nextViewOptions({
+                              disableBack: true
+                            });
+                            $state.go("app.home");
                           })
                         }
                         console.log(response);
@@ -1265,12 +1417,22 @@ app
                   if(response.success){
                     $state.go("app.checkoutSuccess");
                   }else{
-                    $state.go("app.checkoutFailed");
+                    if(response.redirect){
+                      $ionicHistory.nextViewOptions({
+                        disableBack: true
+                      });
+                      $state.go("app.home");
+                    }else{
+                      $state.go("app.checkoutFailed");
+                    }
                   }
                 })
                 .catch(function(error){
                   $ionicLoading.hide();
-                  $state.go("app.checkoutFailed");
+                  $ionicHistory.nextViewOptions({
+                    disableBack: true
+                  });
+                  $state.go("app.home");
                 })
               }
               console.log(response);
@@ -1691,7 +1853,7 @@ app
   };
 })
 
-.controller('MyAccountCtrl', function ($scope, $rootScope, $state, $stateParams, $cordovaDialogs, $ionicLoading, $ionicModal, ionicMaterialInk, Api) {
+.controller('MyAccountCtrl', function ($scope, $rootScope, $state, $ionicHistory, $stateParams, $cordovaDialogs, $ionicLoading, $ionicModal, ionicMaterialInk, Api) {
   $scope.loading = true;
   $scope.error = false;
   $scope.message = "";
@@ -1704,24 +1866,41 @@ app
       console.log(response)
       if(response.success){
         console.log("Verify passcode success");
+        $rootScope.passcodeError = null;
         $scope.getPasscodeModal.hide();
         $scope.process();
       }
     })
     .catch(function(err){
       console.log(err)
-      $rootScope.passcodeError = "Invalid code. Please try again"
+      $rootScope.passcodeError = err.data;
     })
   }
 
-    $ionicModal.fromTemplateUrl('templates/passcode-get.html', {
-      scope: $scope,
-      animation: 'slide-in-up'
-    }).then(function(modal) {
-      $scope.getPasscodeModal = modal;
+  $scope.closeGetPasscodeModal = function() {
+    console.log("Closing Modal");
+    $scope.getPasscodeModal.hide();
+    $ionicHistory.nextViewOptions({
+      disableBack: true
     });
+    $state.go("app.home");
+  };
+
+  $ionicModal.fromTemplateUrl('templates/passcode-get.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.getPasscodeModal = modal;
+  });
 
   $scope.$on( "$ionicView.enter", function( scopes, states ){
+    // $ionicModal.fromTemplateUrl('templates/passcode-get.html', {
+    //   scope: $scope,
+    //   animation: 'slide-in-up'
+    // }).then(function(modal) {
+    //   $scope.getPasscodeModal = modal;
+    // });
+
     $scope.loading = true;
     $scope.error = false;
     $ionicModal.fromTemplateUrl('templates/passcode-get.html', {
@@ -1735,7 +1914,17 @@ app
     }else if(!$rootScope.loggedIn){
       $state.go("register");
     }else{
-      $scope.getPasscodeModal.show();
+      if($scope.getPasscodeModal !== undefined){
+        $scope.getPasscodeModal.show();
+      }else{
+        $ionicModal.fromTemplateUrl('templates/passcode-get.html', {
+          scope: $scope,
+          animation: 'slide-in-up'
+        }).then(function(modal) {
+          $scope.getPasscodeModal = modal;
+          $scope.getPasscodeModal.show();
+        });
+      }
     }
   });
 
@@ -1781,6 +1970,127 @@ app
       console.log("You are not online");
     }
   };
+})
+.controller('ReportProblemCtrl', function ($scope, $rootScope, $state, $stateParams, $ionicPopup, $ionicLoading, $ionicModal, ionicMaterialInk, Api){
+  $scope.loading = true;
+  $scope.error = false;
+  $scope.reportProgress = false;
+  $scope.message = "";
+  $scope.data = {
+    type: "Report an Issue",
+    issue: ""
+  }
+
+  $scope.$on( "$ionicView.enter", function( scopes, states ){
+    $scope.loading = true;
+    $scope.error = false;
+
+    if(!$rootScope.initExecuted){
+      $state.go("init");
+    }else if(!$rootScope.loggedIn){
+      $state.go("register");
+    }else{
+      $scope.loading = false;
+    }
+  });
+
+  $scope.reportIssue = function(){
+    $scope.reportProgress = true;
+    var data = {
+      controller: 'user',
+      action: 'reportProblem',
+      user_id : $rootScope.currentUser.user_id,
+      issue_type: $scope.data.type,
+      issue_details: $scope.data.issue
+    };
+
+    Api.processRequest(data)
+    .then(function(response){
+      $scope.reportProgress = false;
+      if(response.success){
+        $scope.data = {
+          type: "Report an Issue",
+          issue: ""
+        }
+        $ionicPopup.alert({
+          template: response.data,
+          title: 'Sucessful'
+        });
+      }else{
+        $ionicPopup.alert({
+          template: response.data,
+          title: 'Error'
+        });
+      }
+    })
+    .catch(function(err){
+      $scope.reportProgress = false;
+      $ionicPopup.alert({
+        template: err,
+        title: 'Error'
+      });
+    })
+  }
+})
+
+.controller('RetrievePasscodeCtrl', function ($scope, $rootScope, $state, $stateParams, $ionicPopup, $ionicLoading, $ionicModal, ionicMaterialInk, Api){
+  $scope.loading = true;
+  $scope.error = false;
+  $scope.verifyDOBProgress = false;
+  $scope.message = "";
+
+  $scope.currentDate = new Date();
+  $scope.minDate = new Date(1960, 1, 1);
+  $scope.maxDate = $scope.currentDate;
+
+  $scope.datePickerCallback = function (val) {
+    if (val) { 
+      $scope.dob = val.getFullYear() + '-' + ("0" + (val.getMonth() + 1 )).slice(-2) + '-' + ("0" + val.getDate()).slice(-2);
+    }
+  };
+
+  $scope.$on( "$ionicView.enter", function( scopes, states ){
+    $scope.loading = true;
+    $scope.error = false;
+
+    if(!$rootScope.initExecuted){
+      $state.go("init");
+    }else if(!$rootScope.loggedIn){
+      $state.go("register");
+    }else{
+      $scope.loading = false;
+    }
+  });
+
+  $scope.verifyDOB = function(){
+    $scope.verifyDOBProgress = true;
+    var data = {
+      controller: 'user',
+      action: 'verifyDOB',
+      user_id : $rootScope.currentUser.user_id,
+      dob: $scope.dob
+    };
+
+    Api.processRequest(data)
+    .then(function(response){
+      $scope.verifyDOBProgress = false;
+      if(response.success){
+        $rootScope.setPasscode();
+      }else{
+        $ionicPopup.alert({
+          template: response.data,
+          title: 'Error'
+        });
+      }
+    })
+    .catch(function(err){
+      $scope.verifyDOBProgress = false;
+      $ionicPopup.alert({
+        template: err,
+        title: 'Error'
+      });
+    })
+  }
 })
 
 .controller('ProfileCtrl', function ($scope, $rootScope, $ionicPopover, $ionicPopup, $ionicActionSheet, $state, $stateParams, $cordovaDialogs, $ionicLoading, ionicMaterialInk, Api, Server) {
@@ -2199,7 +2509,7 @@ app
     })
     .catch(function(err){
       console.log(err)
-      $rootScope.passcodeError = "Invalid code. Please try again"
+      $rootScope.passcodeError = err.data;
     })
   }
 

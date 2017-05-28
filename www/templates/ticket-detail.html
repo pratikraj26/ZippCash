@@ -15,7 +15,7 @@
               </div>
               <br>
               <div class="bar bar-subheader bar-stable static text-center">
-                <strong class="title">You won <span class = "balanced">${{ticket.win_amount}}</span> on this ticket</strong>
+                <strong class="title">You won <span class = "balanced">Gourde {{ticket.win_amount}}</span> on this ticket</strong>
               </div>
             </div>
             <div class="bar bar-subheader bar-stable static text-center">
@@ -29,7 +29,7 @@
                 <strong>Purchased on: </strong>&nbsp;{{ticket.purchased_on}}
               </p>
               <p ng-if="ticket.payment_status == 'approved'">
-                <strong>Total amount: </strong><span class = "balanced">${{ticket.total_amount}}</span>&nbsp;&nbsp;&nbsp;
+                <strong>Total amount: </strong><span class = "balanced">Gourde {{ticket.total_amount}}</span>&nbsp;&nbsp;&nbsp;
                 <strong>Payment Status: </strong><span class = "balanced">Paid</span>
               </p>
             </ion-item>
@@ -80,30 +80,30 @@
                   <b>Number</b>
                 </ion-item>
                 <ion-item style = "float: left;width: 32%;">
-                  <b>Paid($)</b>
+                  <b>Paid</b>
                 </ion-item>
-                <ion-item style = "float: left;width: 36%;">
-                  <b>Win($)</b>
+                <ion-item style = "float: left;width: 35%;">
+                  <b>Win</b>
                 </ion-item>
                 <div ng-repeat = "number in ticket.number_list">
                   <ion-item style = "float: left;width: 32%;">
                     {{number.ticket_number}}
                   </ion-item>
                   <ion-item style = "float: left;width: 32%;">
-                    ${{number.ticket_amount}}
+                    {{number.ticket_amount}}
                   </ion-item>
-                  <ion-item style = "float: left;width: 36%;">
-                    ${{number.win_amount}}
+                  <ion-item style = "float: left;width: 35%;">
+                    {{number.win_amount}}
                   </ion-item>
                 </div>
                 <ion-item style = "float: left;width: 32%;">
                   <b>Total</b>
                 </ion-item>
                 <ion-item style = "float: left;width: 32%;">
-                  <b>${{ticket.total_amount}}</b>
+                  <b>{{ticket.total_amount}}</b>
                 </ion-item>
-                <ion-item style = "float: left;width: 36%;">
-                  <b>${{ticket.win_amount}}</b>
+                <ion-item style = "float: left;width: 35%;">
+                  <b>{{ticket.win_amount}}</b>
                 </ion-item>
               </div>
             </div>
@@ -113,21 +113,21 @@
                   <b>Number</b>
                 </ion-item>
                 <ion-item style = "float: left;width: 50%;">
-                  <b>Amount($)</b>
+                  <b>Amount(Gourde)</b>
                 </ion-item>
                 <div ng-repeat = "number in ticket.number_list">
                   <ion-item style = "float: left;width: 50%;">
                     {{number.ticket_number}}
                   </ion-item>
                   <ion-item style = "float: left;width: 50%;">
-                    ${{number.ticket_amount}}
+                    {{number.ticket_amount}}
                   </ion-item>
                 </div>
                 <ion-item style = "float: left;width: 50%;">
                   <b>Total</b>
                 </ion-item>
                 <ion-item style = "float: left;width: 50%;">
-                  <b>${{ticket.total_amount}}</b>
+                  <b>{{ticket.total_amount}}</b>
                 </ion-item>
               </div>
             </div>

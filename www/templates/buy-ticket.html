@@ -10,7 +10,7 @@
           </span>
         </div>
         <div class="item" style = "border: 0px;" ng-repeat="input in ticket">
-          <input type="number" placeholder="nimewo" ng-model="input.number" style = "width:35%;float:left;" class = "ios">
+          <input type="text" placeholder="nimewo" ng-model="input.number" style = "width:35%;float:left;" class = "ios">
           <input type="number" placeholder="Amount" ng-model="input.amount" style = "width:35%;float:left;" class = "ios">
           <button class="button button-small button-balanced" ng-show = "$index == ticket.length - 1" ng-click="addInput()" style = "float:right;width: 25%;">
               <i class="icon ion-plus"></i>

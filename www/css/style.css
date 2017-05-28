@@ -654,3 +654,7 @@ body {
 .forget-password a{
   text-decoration: none;color: #0B610B;font-size: 21px;
 }
+
+.datepicker-modal div{
+  font-size: 78%;
+}

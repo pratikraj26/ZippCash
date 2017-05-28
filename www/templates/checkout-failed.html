@@ -5,7 +5,7 @@
       </div>
       <div style = "height:100%;" ng-show="!loading">
         <div class="item">
-          <h2 style = "color:#afafaf;text-align:center">Your payment of ${{total_amount}} had been unsuccessfully.</h2>
+          <h2 style = "color:#afafaf;text-align:center">Your payment of Gourde {{total_amount}} had been unsuccessfully.</h2>
           <ion-list>
             <ion-item style = "float: left;width: 50%;">
               <b>Payment Status :</b>
@@ -15,11 +15,11 @@
             </ion-item>
             <div class="clear"></div>
           </ion-list>
-          <center>
+<!--           <center>
             <button class = "button button-bright" ng-click = "checkout()">
               Retry
             </button>
-          </center>
+          </center> -->
         </div>
         <div class="bar bar-subheader bar-stable static text-center">
             <strong class="title">Your ticket details</strong>
@@ -29,7 +29,7 @@
             <b>Number</b>
           </ion-item>
           <ion-item style = "float: left;width: 50%;">
-            <b>Amount($)</b>
+            <b>Amount(Gourde)</b>
           </ion-item>
           <div class="clear"></div>
         </ion-list>
@@ -38,7 +38,7 @@
             {{ticket.number}}
           </ion-item>
           <ion-item style = "float: left;width: 50%;">
-            ${{ticket.amount}}
+            {{ticket.amount}}
           </ion-item>
           <div class="clear"></div>
         </ion-list>
@@ -47,7 +47,7 @@
             <b>Total</b>
           </ion-item>
           <ion-item style = "float: left;width: 50%;">
-            <b>${{total_amount}}</b>
+            <b>{{total_amount}}</b>
           </ion-item>
           <div class="clear"></div>
         </ion-list>

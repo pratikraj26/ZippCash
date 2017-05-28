@@ -55,7 +55,7 @@
               <center>
                 <div class="ticker-title">Dènye Rezilta loto a</div>
               </center>
-              <ion-item style = "border:0px;">
+              <ion-item style = "border:0px;" ng-if="last_lottery.morning">
                 <div class="ticker-title"><p>Morning Lottery (<span am-time-ago="last_lottery.morning.published_on"></span>)</p></div>
                 <p class = "balls">
                   <div style = "width:30%;float:left;margin-right:5%;">
@@ -69,7 +69,7 @@
                   </div>
                 </p>
               </ion-item>
-              <ion-item style = "border:0px;">
+              <ion-item style = "border:0px;" ng-if="last_lottery.evening">
                 <div class="ticker-title"><p>Evening Lottery (<span am-time-ago="last_lottery.evening.published_on"></span>)</p></div>
                 <p class = "balls">
                   <div style = "width:30%;float:left;margin-right:5%;">
@@ -93,7 +93,7 @@
         </div>
       </div>
     </ion-content>
-    <ion-footer-bar class="bar-energized" style = "height:50px;">
+    <ion-footer-bar class="bar-energized" style = "height:50px;" ng-if = "!waiting">
         <button class="footer-button button-red full-width" ui-sref ="app.buyticket()" style = "font-weight:bold;height:50px;">
           <span >Achte tikèw</span>
         </button>

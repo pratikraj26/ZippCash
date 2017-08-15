@@ -12,8 +12,15 @@
             <div class="item" ng-show = "error" style = "border: 0px;padding: 15px 4px;">
               <div class = "error">{{error_message}}</div>
             </div>
-            <div class="item" style = "border: 0px;padding: 15px 4px;">
+<!--             <div class="item" style = "border: 0px;padding: 15px 4px;">
               <input type="text" placeholder = "Mete Telefòn mou'n nan" ng-model = "data.receiver_login_id" class = "ios">
+            </div> -->
+            <div class="item" style = "border: 0px;">
+               <select ng-model="data.country" ng-init="data.country=countries[0]" ng-options="country.name for country in countries" class = "ios"></select>
+            </div>
+            <div class="item" style = "border: 0px;">
+              <input type="text" ng-model="data.country.dial_code" class = "ios" style = "width:20%;float:left;" disabled>
+              <input type="tel" placeholder = "Mete Telefòn mou'n nan" ng-model = "data.phone" class = "ios" style = "width:78%;float:right;">
             </div>
             <br>
             <div class="item" style = "border: 0px;padding: 15px 4px;">

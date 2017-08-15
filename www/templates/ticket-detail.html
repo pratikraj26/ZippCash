@@ -1,4 +1,4 @@
-<ion-view view-title="Ticket Detail">
+<ion-view view-title="Detay tikè">
     <ion-content>
       <div class="text-center padding" ng-show="loading">
         <ion-spinner class="spinner-balanced"></ion-spinner>
@@ -11,42 +11,42 @@
           <ion-list>
             <div ng-if="ticket.status == 'inactive'">
               <div class="winner" ng-if="ticket.win_amount != '0.00'">
-                <strong>Congratulations</strong>
+                <strong>Felisitasyon</strong>
               </div>
               <br>
               <div class="bar bar-subheader bar-stable static text-center">
-                <strong class="title">You won <span class = "balanced">Gourde {{ticket.win_amount}}</span> on this ticket</strong>
+                <strong class="title">Ou genyen {{ticket.win_amount}} <span class = "balanced">Goud</span> pou tikè sa</strong>
               </div>
             </div>
             <div class="bar bar-subheader bar-stable static text-center">
-                <strong class="title">Ticket Details</strong>
+                <strong class="title">Detay tikè a</strong>
             </div>
             <ion-item>
               <p class = "title">
-                <strong>Ticket ID: </strong>&nbsp;TKT-{{ticket.ticket_id}}
+                <strong>Tikè ID: </strong>&nbsp;TKT-{{ticket.ticket_id}}
               </p>
               <p class = "title">
-                <strong>Purchased on: </strong>&nbsp;{{ticket.purchased_on}}
+                <strong>Acheté a: </strong>&nbsp;{{ticket.purchased_on}}
               </p>
               <p ng-if="ticket.payment_status == 'approved'">
-                <strong>Total amount: </strong><span class = "balanced">Gourde {{ticket.total_amount}}</span>&nbsp;&nbsp;&nbsp;
-                <strong>Payment Status: </strong><span class = "balanced">Paid</span>
+                <strong>Total kantite lajan: </strong><span class = "balanced">Gourde {{ticket.total_amount}}</span>&nbsp;&nbsp;&nbsp;
+                <strong>Estati peman: </strong><span class = "balanced">Paid</span>
               </p>
             </ion-item>
             <div class="bar bar-subheader bar-stable static text-center">
-                <strong class="title">Lottery details</strong>
+                <strong class="title">Detay tiraj la</strong>
             </div>
             <ion-item>
               <p class = "title">
-                <strong>Lottery ID: </strong>&nbsp;{{ticket.lottery_id}}&nbsp;&nbsp;&nbsp;
-                <strong>Lottery Name: </strong>&nbsp;{{ticket.lottery_name}}
+                <strong>Lotri ID: </strong>&nbsp;{{ticket.lottery_id}}&nbsp;&nbsp;&nbsp;
+                <strong>Non lotri a: </strong>&nbsp;{{ticket.lottery_name}}
               </p>
               <p class = "title">
-                <strong>Draw on: </strong>&nbsp;on {{ticket.lottery_date_time}}
+                <strong>Tiraj: </strong>&nbsp;on {{ticket.lottery_date_time}}
               </p>
             </ion-item>
             <div class="bar bar-subheader bar-stable static text-center">
-                <strong class="title">Lottery result</strong>
+                <strong class="title">Rezilta lotri</strong>
             </div>
             <ion-item ng-if="ticket.status == 'inactive'">
               <p class = "title balls">
@@ -68,19 +68,19 @@
             </ion-item>
             <ion-item ng-if="ticket.status == 'active'">
               <p class = "title">
-                <h2 class = "text-center">Lottery is currently active.</h2>
+                <h2 class = "text-center">Lotri se kounye a aktif.</h2>
               </p>
             </ion-item>
             <div class="bar bar-subheader bar-stable static text-center">
-                <strong class="title">Numbers you played for with this ticket</strong>
+                <strong class="title">Nimewo ou te jwe ak sa a tikè</strong>
             </div>
             <div ng-if="ticket.status == 'inactive'">
               <div ng-if="ticket.number_list.length">
                 <ion-item style = "float: left;width: 32%;">
-                  <b>Number</b>
+                  <b>Nimewo</b>
                 </ion-item>
                 <ion-item style = "float: left;width: 32%;">
-                  <b>Paid</b>
+                  <b>Peye</b>
                 </ion-item>
                 <ion-item style = "float: left;width: 35%;">
                   <b>Win</b>
@@ -110,10 +110,10 @@
             <div ng-if="ticket.status != 'inactive'">
               <div ng-if="ticket.number_list.length">
                 <ion-item style = "float: left;width: 50%;">
-                  <b>Number</b>
+                  <b>Nimewo</b>
                 </ion-item>
                 <ion-item style = "float: left;width: 50%;">
-                  <b>Amount(Gourde)</b>
+                  <b>kantite lajan(Gourde)</b>
                 </ion-item>
                 <div ng-repeat = "number in ticket.number_list">
                   <ion-item style = "float: left;width: 50%;">
@@ -124,7 +124,7 @@
                   </ion-item>
                 </div>
                 <ion-item style = "float: left;width: 50%;">
-                  <b>Total</b>
+                  <b>Manm</b>
                 </ion-item>
                 <ion-item style = "float: left;width: 50%;">
                   <b>{{ticket.total_amount}}</b>
@@ -133,7 +133,7 @@
             </div>
             <ion-item ng-if="!ticket.number_list.length">
               <p class = "title">
-                <h2 style = "color:#777;text-align:center">No details found for this ticket.</h2>
+                <h2 style = "color:#777;text-align:center">Pa gen detay yo te jwenn pou sa a tikè.</h2>
               </p>
             </ion-item>
           </ion-list>

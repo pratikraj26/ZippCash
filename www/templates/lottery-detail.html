@@ -1,4 +1,4 @@
-<ion-view view-title="Lottery Detail">
+<ion-view view-title="lotri detay">
     <ion-content>
       <div class="text-center padding" ng-show="loading">
         <ion-spinner class="spinner-balanced"></ion-spinner>
@@ -14,17 +14,17 @@
             </div>
             <ion-item>
               <p class = "title">
-                <strong>Lottery ID: </strong>&nbsp;{{lottery.lottery_id}}
+                <strong>Lotri ID: </strong>&nbsp;{{lottery.lottery_id}}
               </p>
               <p class = "title">
-                <strong>Lottery Name: </strong>&nbsp;{{lottery.lottery_name}}
+                <strong>Non lotri a: </strong>&nbsp;{{lottery.lottery_name}}
               </p>
               <p class = "title">
-                <strong>Draw on: </strong>&nbsp;on {{lottery.lottery_date_time}}
+                <strong>Tiraj: </strong>&nbsp;on {{lottery.lottery_date_time}}
               </p>
             </ion-item>
             <div class="bar bar-subheader bar-stable static text-center">
-                <strong class="title">Draw result</strong>
+                <strong class="title">REZILTA TIRAJ LA</strong>
             </div>
             <ion-item ng-if="lottery.status == 'inactive'">
               <p class = "title balls">
@@ -45,23 +45,23 @@
               </p>
             </ion-item>
             <div class="bar bar-subheader bar-stable static text-center">
-                <strong class="title">Your tickets for this lottery</strong>
+                <strong class="title">BIYè OU TE ACHTE POU TIRAJ SA</strong>
             </div>
             <ion-item ng-if="!lottery.user_tickets.length">
               <p class = "title">
-                <h2 style = "color:#777;text-align:center">You have not purchased any ticket for this lottery</h2>
+                <h2 style = "color:#777;text-align:center">Ou pa't achte biyè pou tiraj sa</h2>
               </p>
             </ion-item>
             <div ng-if="lottery.user_tickets.length">
               <ion-item ng-repeat="ticket in lottery.user_tickets" ui-sref="app.ticket-detail({id:ticket.ticket_id})">
                 <p class = "title">
-                  <strong>Ticket ID: </strong>&nbsp;TKT-{{ticket.ticket_id}}&nbsp;&nbsp;&nbsp;
+                  <strong>Tikè ID: </strong>&nbsp;TKT-{{ticket.ticket_id}}&nbsp;&nbsp;&nbsp;
                 </p>
                 <p class = "title">
-                  <strong>Purchased on: </strong>&nbsp;on {{ticket.purchased_on}}
+                  <strong>Acheté a: </strong>&nbsp;on {{ticket.purchased_on}}
                 </p>
                 <p ng-if="ticket.payment_status == 'approved'">
-                  <strong>Amount played for: </strong><span class = "balanced">${{ticket.total_amount}}</span>&nbsp;&nbsp;&nbsp;
+                  <strong>Kantite lajan te jwe pou: </strong><span class = "balanced">${{ticket.total_amount}}</span>&nbsp;&nbsp;&nbsp;
                 </p>
                 </p>
               </ion-item>

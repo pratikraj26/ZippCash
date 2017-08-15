@@ -74,7 +74,7 @@ app
               .then(function(data){
                 internalDb.updateCurrentUser()
                 .then(function(data){
-                  $rootScope.updatePasscodeProgress = true;
+                  $rootScope.updatePasscodeProgress = false;
                   $rootScope.securePasscode = null;
                   $rootScope.securePasscodeLength = 0;
                   $ionicLoading.hide();
@@ -96,7 +96,7 @@ app
                 });
               });
           } else {
-            $rootScope.updatePasscodeProgress = true;
+            $rootScope.updatePasscodeProgress = false;
             $rootScope.securePasscode = null;
             $rootScope.securePasscodeLength = 0;
             $cordovaDialogs.alert(response.data, 'Error', 'Ok')
@@ -926,7 +926,7 @@ app
             .then(function(response){
               if(response.success == true){
                 for(var i = 0; i < response.data.length; i++){
-                  if(moment(response.data[i].lottery_date_time, "YYYY-MM-DD HH:mm:ss").format("HH") == 11){
+                  if(response.data[i].lottery_name == "Maten"){
                     $scope.last_lottery['morning'] = response.data[i];
                   }else{
                     $scope.last_lottery['evening'] = response.data[i];
@@ -2073,6 +2073,7 @@ app
 
     Api.processRequest(data)
     .then(function(response){
+      $rootScope.passcodeAttempt = 0;
       $scope.verifyDOBProgress = false;
       if(response.success){
         $rootScope.setPasscode();
@@ -2125,6 +2126,7 @@ app
           $scope.loading = false;
           if(response.success == true){
             $scope.profileDetails = response.data;
+            $scope.profileDetails.phone = $scope.profileDetails.phone.replace(response.data.country_code, '');
           }else{
             $scope.error = true;
             $scope.message = response.data;
@@ -2146,15 +2148,15 @@ app
                 '       <div class="list">' +
                 '         <a class="item item-icon-left" ui-sref="app.edit-profile()" ng-click = "closePopover()">' +
                 '           <i class="icon ion-edit"></i>' +
-                '           Edit Profile' +
+                '           Modifye pwofil ou' +
                 '         </a>' +
                 '         <a class="item item-icon-left" ui-sref="app.change-password()" ng-click = "closePopover()">' +
                 '           <i class="icon ion-android-lock"></i>' +
-                '           Change Password' +
+                '           Chanje modpas ou' +
                 '         </a>' +
                 '         <a class="item item-icon-left" ui-sref="logout()" ng-click = "closePopover()">' +
                 '           <i class="icon ion-power"></i>' +
-                '           Logout' +
+                '           Dekonekte' +
                 '         </a>' +
                 '       </div>' +
                 '   </ion-content>' +
@@ -2376,7 +2378,7 @@ app
 
 })
 
-.controller('TransferCreditCtrl', function ($scope, $rootScope, $state, $stateParams, $cordovaDialogs, $ionicLoading, ionicMaterialInk, Api) {
+.controller('TransferCreditCtrl', function ($scope, $rootScope, $state, $stateParams, $cordovaDialogs, $ionicLoading, ionicMaterialInk, Api, IndexFactory) {
   $scope.loading = true;
   $scope.error = false;
   $scope.error_message = null;
@@ -2396,12 +2398,57 @@ app
     }
   });
 
+  $scope.selectedCountry = {}
+  $scope.countries = {};
+  $scope.error = '';
+  IndexFactory.getCountries( $scope )
+  .then( function(data){
+    $scope.setCurrentCountry();
+  });
+  $scope.data = {};
+
+  $scope.setCurrentCountry = function(){
+    if($rootScope.currentCountryName == null && $rootScope.currentCountryCode == null){
+      console.log("Getting CUrrent Position");
+      navigator.geolocation.getCurrentPosition(function (position) {
+        console.log(position);
+        var locCurrent = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ 'latLng': locCurrent }, function (results, status) {
+          console.log(results);
+          var locItemCount = results.length;
+          var locCountryNameCount = locItemCount - 1;
+          for(var n = 0; n < results[locCountryNameCount].address_components.length; n++){
+            if(results[locCountryNameCount].address_components[n].types[0] == 'country'){
+              $rootScope.currentCountryCode = results[locCountryNameCount].address_components[n].short_name;
+              $rootScope.currentCountryName = results[locCountryNameCount].address_components[n].long_name;
+            }
+          }
+          for (var i = 0; i < $scope.countries.length; i++) {
+            if ($scope.countries[i]['code'] === $rootScope.currentCountryCode) {
+              $scope.data.country = $scope.countries[i];
+              console.log($scope.data.country);
+              break;
+            }
+          }
+        });
+      });
+    }else{
+      for (var i = 0; i < $scope.countries.length; i++) {
+        if ($scope.countries[i]['code'] === $rootScope.currentCountryCode) {
+          $scope.data.country = $scope.countries[i];
+          break;
+        }
+      }
+    }
+  }
+
   $scope.proceedTransfer = function(){
     $scope.proceedTransferProgress = true;
     if($rootScope.isOnline){
       if($rootScope.loggedIn){
         var amount = parseFloat($scope.data.amount);
-        var receiver_login_id = $scope.data.receiver_login_id;
+        var receiver_login_id = $scope.data.country.dial_code + $scope.data.phone;
         if(amount == undefined || receiver_login_id == undefined){
           $scope.error = true;
           $scope.error_message = "Invalid login ID or phone number or amount.";

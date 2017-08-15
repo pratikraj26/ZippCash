@@ -12,7 +12,7 @@
             <!-- <div class="logo">{{lotteryDetails.lottery_name}}</div> -->
             <div class="ticker">
               <img ng-src="img/clockTrans.gif" alt="Animated alarm clock" style = "float:left;">
-              <div class="ticker-title" ng-if = "!waiting">Time's Running Out</div>
+              <div class="ticker-title" ng-if = "!waiting">PRESE PRAN CHANS OU!!</div>
               <div class="ticker-title" ng-if = "waiting">Lè A Fini</div>
               <span id="counters" ng-if="showTimer">
                 <timer countdown="timer" finish-callback="countdown_finished()" max-time-unit="'day'" interval="1000" ng-if = "!waiting">
@@ -53,10 +53,10 @@
                 <br>
               </center>
               <center>
-                <div class="ticker-title">Dènye Rezilta loto a</div>
+                <div class="ticker-title">Me Dènye rezilta bòlèt la</div>
               </center>
               <ion-item style = "border:0px;" ng-if="last_lottery.morning">
-                <div class="ticker-title"><p>Morning Lottery (<span am-time-ago="last_lottery.morning.published_on"></span>)</p></div>
+                <div class="ticker-title"><p>Maten (<span>{{last_lottery.morning.published_on | amDateFormat:'DD, MM YYYY'}}</span>)</p></div>
                 <p class = "balls">
                   <div style = "width:30%;float:left;margin-right:5%;">
                     <span class = "ball">{{last_lottery.morning.lottery_number_1}}</span>
@@ -70,7 +70,7 @@
                 </p>
               </ion-item>
               <ion-item style = "border:0px;" ng-if="last_lottery.evening">
-                <div class="ticker-title"><p>Evening Lottery (<span am-time-ago="last_lottery.evening.published_on"></span>)</p></div>
+                <div class="ticker-title"><p>Aswè (<span>{{last_lottery.morning.published_on | amDateFormat:'DD, MM YYYY'}}</span>)</p></div>
                 <p class = "balls">
                   <div style = "width:30%;float:left;margin-right:5%;">
                     <span class = "ball">{{last_lottery.evening.lottery_number_1}}</span>
@@ -93,7 +93,7 @@
         </div>
       </div>
     </ion-content>
-    <ion-footer-bar class="bar-energized" style = "height:50px;" ng-if = "!waiting">
+    <ion-footer-bar class="bar-energized ng-hide" style = "height:50px;" ng-if = "!waiting">
         <button class="footer-button button-red full-width" ui-sref ="app.buyticket()" style = "font-weight:bold;height:50px;">
           <span >Achte tikèw</span>
         </button>

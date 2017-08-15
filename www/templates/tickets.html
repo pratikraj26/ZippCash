@@ -14,7 +14,7 @@
                 <strong>Achte a: </strong>&nbsp;TKT-{{ticket.ticket_id}}&nbsp;&nbsp;&nbsp;
               </p>
               <p class = "title">
-                <strong>Purchased on: </strong>&nbsp;on {{ticket.purchased_on}}
+                <strong>Acheté a: </strong>&nbsp;on {{ticket.purchased_on}}
               </p>
               <p ng-if="ticket.payment_status == 'approved'">
                 <strong>Total amount: </strong><span class = "balanced">${{ticket.total_amount}}</span>&nbsp;&nbsp;&nbsp;
@@ -27,7 +27,7 @@
           <ion-infinite-scroll on-infinite="loadMore()" distance="5%" ng-if="hasMoreData"></ion-infinite-scroll>
 
           <div ng-show="!ticket_list.length">
-            <h3 style = "color:#777;text-align:center">No tickets found</h3>
+            <h3 style = "color:#777;text-align:center">Aucun billet n'a été trouvé</h3>
           </div>
         </div>
       </div>

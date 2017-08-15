@@ -1,4 +1,4 @@
-<ion-view view-title="Profile Detail">
+<ion-view view-title="Detay pwofil ou">
   <ion-nav-buttons side="right">
     <button class="button button-icon button-clear ion-android-more-vertical activated" id="menu-popover" ng-click="popover.show($event)"></button>
     <!-- <button class="button button-clear" ng-click="updateProfileDetails()">
@@ -22,13 +22,13 @@
       </div>
       <div>
         <div class="list" id = "profile-details">
-          <ion-item class="item-divider item-icon-right text-center" style="text-align:center;"><b>Profile Details</b></ion-item>
+          <ion-item class="item-divider item-icon-right text-center" style="text-align:center;"><b>Detay pwofil ou</b></ion-item>
           <label class="item item-input item-stacked-label">
-            <p>Name</p>
+            <p>Non</p>
             <p class = "profile-detail-content">{{profileDetails.first_name}}&nbsp;{{profileDetails.last_name}}</p>
           </label>
           <label class="item item-input item-stacked-label">
-            <p>Email</p>
+            <p>Imèl</p>
             <p class = "profile-detail-content">{{profileDetails.email}}</p>
           </label>
           <label class="item item-input item-stacked-label">
@@ -36,9 +36,9 @@
             <p class = "profile-detail-content">{{profileDetails.country_code}}{{profileDetails.phone}}</p>
           </label>
           <label class="item item-input item-stacked-label">
-            <p>Basic Info</p>
+            <p>Enfòmasyon debaz</p>
             <p ng-if="profileDetails.basic_info != null"><strong>{{profileDetails.basic_info}}</p>
-            <p ng-if="profileDetails.basic_info == null"><strong>Update your basic info in edit profile section.</p>
+            <p ng-if="profileDetails.basic_info == null"><strong>Mete ajou enfòmasyon debaz ou a modifye pwofil seksyon</p>
           </label>
         </div>
       </div>

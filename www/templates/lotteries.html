@@ -11,10 +11,10 @@
           <ion-list>
           	<ion-item ng-repeat="lottery in lottery_list" ui-sref="app.lottery-detail({id:lottery.lottery_id})">
               <p class = "title">
-                <strong>Lotri ID: </strong>&nbsp;{{lottery.lottery_id}}
+                <strong>Tiraj ID: </strong>&nbsp;{{lottery.lottery_id}}
               </p>
               <p class = "title">
-                <strong>{{lottery.lottery_name}}</strong>&nbsp;on {{lottery.lottery_date_time}}
+                <strong>Tiraj {{lottery.lottery_name}}</strong>&nbsp;on {{lottery.lottery_date_time}}
               </p>
               <p ng-if="lottery.status == 'active'">
                 <strong>Sitiyasyon:</strong><span class = "balanced">Running</span>

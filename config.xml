@@ -1,11 +1,11 @@
-<?xml version="2.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.ionicframework.zippcash584695" version="0.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/2.0">
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<widget id="com.ionicframework.zippcash" version="0.0.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/2.0">
   <name>ZippCash</name>
   <description>
-        An Ionic Framework and Cordova project.
+        Experience the fun and excitement as playing real lottery without losing money..
     </description>
-  <author email="you@example.com" href="http://example.com/">
-      Your Name Here
+  <author email="zippcashapp@gmail.com" href="http://zippcash.com/">
+      Zippcash
     </author>
   <content src="index.html"/>
   <access origin="*"/>

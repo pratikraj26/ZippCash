@@ -474,31 +474,71 @@ app
       last_name : $scope.data.last_name,
       phone : $scope.data.country.dial_code + $scope.data.phone,
       dob : $scope.data.dob,
-      password: $scope.data.password
+      password: $scope.data.password,
+      referral_id: $scope.data.referral_id || null
     }
 
     if( $rootScope.isOnline ){
-      Api.processRequest(data)
-      .then( function(response){
-        $scope.verifyPhoneNumberProgress = false;
-        if( response.success != undefined && response.success == true ){
-          window.localStorage.setItem('phone', data.phone);
-          window.localStorage.setItem('country_code', data.country_code);
-          $state.go('verify');
-        } else {
-          $cordovaDialogs.alert(response.data, 'Error', 'Ok')
-          .then(function() {
-            // callback success
+      if($scope.data.referral_id !== '' && $scope.data.referral_id !== null){
+        $scope.checkReferral($scope.data.referral_id)
+        .then(function(response){
+          if(response.success){
+            Api.processRequest(data)
+            .then( function(response){
+              $scope.verifyPhoneNumberProgress = false;
+              if( response.success != undefined && response.success == true ){
+                window.localStorage.setItem('phone', data.phone);
+                window.localStorage.setItem('country_code', data.country_code);
+                $state.go('verify');
+              } else {
+                $cordovaDialogs.alert(response.data, 'Error', 'Ok')
+                .then(function() {
+                  // callback success
+                });
+              }
+             })
+             .catch( function(err) {
+                $scope.error = err;
+              });
+          }else{
+            $scope.error = response.error;
+            $cordovaDialogs.alert(response.error, 'Error', 'Ok');
+            $scope.verifyPhoneNumberProgress = false;
+          }
+        })
+      }else{
+        Api.processRequest(data)
+        .then( function(response){
+          $scope.verifyPhoneNumberProgress = false;
+          if( response.success != undefined && response.success == true ){
+            window.localStorage.setItem('phone', data.phone);
+            window.localStorage.setItem('country_code', data.country_code);
+            $state.go('verify');
+          } else {
+            $cordovaDialogs.alert(response.data, 'Error', 'Ok')
+            .then(function() {
+              // callback success
+            });
+          }
+         })
+         .catch( function(err) {
+            $scope.error = err;
           });
-        }
-       })
-       .catch( function(err) {
-          $scope.error = err;
-        });
+      }
     }else{
       $ionicLoading.hide();
       $scope.error = 'You are not connected to internet';
     }
+  }
+
+  $scope.checkReferral = function(referral_id){
+    var data = {
+      controller: 'user',
+      action: 'checkReferral',
+      referral_id: $scope.data.referral_id
+    }
+
+    return Api.processRequest(data);
   }
 
 })

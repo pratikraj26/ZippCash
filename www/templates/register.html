@@ -24,6 +24,9 @@
       <div class="item" style = "border: 0px;">
         <input type="password" placeholder = "Shwazi yon modpas ke ou pap bliye" ng-model = "data.password" class = "ios">
       </div>
+      <div class="item" style = "border: 0px;">
+        <input type="text" placeholder = "Referral ID" ng-model = "data.referral_id" class = "ios">
+      </div>
       <button class="button button-red full-width" ng-click="verifyPhoneNumber()" style = "font-weight:bold;height:50px;">
         <span ng-show = "!verifyPhoneNumberProgress">Enskri</span>
         <ion-spinner ng-show = "verifyPhoneNumberProgress" style = "margin-top:10px;stroke:#fff;fill:#fff;" icon="dots"></ion-spinner>

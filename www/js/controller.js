@@ -479,7 +479,7 @@ app
     }
 
     if( $rootScope.isOnline ){
-      if($scope.data.referral_id !== '' && $scope.data.referral_id !== null){
+      if($scope.data.referral_id && $scope.data.referral_id !== '' && $scope.data.referral_id !== null){
         $scope.checkReferral($scope.data.referral_id)
         .then(function(response){
           if(response.success){

@@ -27,6 +27,10 @@
             <p>Non</p>
             <p class = "profile-detail-content">{{profileDetails.first_name}}&nbsp;{{profileDetails.last_name}}</p>
           </label>
+          <label class="item item-input item-stacked-label" ng-if="profileDetails.slug">
+            <p>Referral ID:</p>
+            <p class = "profile-detail-content">{{profileDetails.slug}}</p>
+          </label>
           <label class="item item-input item-stacked-label">
             <p>Imèl</p>
             <p class = "profile-detail-content">{{profileDetails.email}}</p>

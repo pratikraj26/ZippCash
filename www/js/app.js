@@ -8,8 +8,8 @@ var app = angular.module('starter', ['ionic', 'ionic-material', 'ngCordova', 'ti
 app
 
 .constant('ApiEndpoint', {
-  url: 'http://localhost/zippcash/api/ajax.php',
-  // url: 'http://www.kizombanight.com/zippcash/api/ajax.php',
+  // url: 'http://localhost/zippcash/api/ajax.php',
+  url: 'http://www.kizombanight.com/zippcash/api/ajax.php',
   serverBase: 'http://www.kizombanight.com/zippcash/api'
 })
 

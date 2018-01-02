@@ -66,7 +66,9 @@ app
                 function(tx, r) {
                   data = r;
     			      },
-          onError);
+          function(err){
+            deferred.reject(err);
+          });
         });
         deferred.resolve(data);
         return deferred.promise;
@@ -88,7 +90,9 @@ app
         db.transaction(function(tx) {
             tx.executeSql("SELECT * FROM user_login", [],
                 render,
-                onError);
+                function(err){
+            deferred.reject(err);
+          });
         });
         return deferred.promise;
       },
@@ -99,16 +103,17 @@ app
         var data = null;
         var onSuccess = function(tx, rs) {
           data = rs;
+          deferred.resolve(data);
         };
         var onError = function(tx, err){
-          console.log(err);
+          deferred.reject(err);
         };
         db.transaction(function(tx) {
             tx.executeSql("DELETE FROM user_login WHERE 1", [],
                 onSuccess,
                 onError);
         });
-        deferred.resolve(data);
+        // deferred.resolve(data);
         return deferred.promise;
       }
 

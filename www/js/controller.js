@@ -9,6 +9,7 @@ app
       $ionicLoading.hide();
       if($rootScope.loggedIn){
         if($rootScope.currentUser.status === 'Active'){
+          console.log("Redirecting user to home");
           $state.go("app.home");
         }else{
           $rootScope.setPasscode();
@@ -18,22 +19,9 @@ app
       }else{
         $state.go("index");
       }
+    }else{
+      $scope.process();
     }
-  });
-  $rootScope.currentCountryName = null;
-  $rootScope.currentCountryCode = null;
-  $rootScope.currentUser = null;
-  $rootScope.securePasscode = null;
-  $rootScope.securePasscodeLength = 0;
-  $rootScope.passcodeVerified = false;
-  $rootScope.passcodeError = null;
-  $rootScope.passcodeAttempt = 0;
-  $rootScope.token = null;
-  $rootScope.loggedIn = false;
-  $rootScope.isOnline = true;
-  $rootScope.initExecuted = true;
-  $ionicLoading.show({
-      template: '<div class="loader"><svg class="circular"><circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/></svg></div>'
   });
 
   $ionicModal.fromTemplateUrl('templates/passcode-set.html', {
@@ -42,6 +30,14 @@ app
   }).then(function(modal) {
     $rootScope.modal = modal;
   });
+  $rootScope.clearCurrentUser = function(){
+    localStorage.removeItem('phone');
+    localStorage.removeItem('country_code');
+    $rootScope.currentUser = null;
+    $rootScope.token = null;
+    $rootScope.loggedIn = false;
+    $rootScope.isOnline = true;
+  }
   $rootScope.setPasscode = function() {
     $rootScope.modal.show();
   };
@@ -180,39 +176,62 @@ app
     }
   }
 
+  $scope.process = function(){
+    $rootScope.currentCountryName = null;
+    $rootScope.currentCountryCode = null;
+    $rootScope.currentUser = null;
+    $rootScope.securePasscode = null;
+    $rootScope.securePasscodeLength = 0;
+    $rootScope.passcodeVerified = false;
+    $rootScope.passcodeError = null;
+    $rootScope.passcodeAttempt = 0;
+    $rootScope.token = null;
+    $rootScope.loggedIn = false;
+    $rootScope.isOnline = true;
+    $rootScope.initExecuted = true;
+    $ionicLoading.show({
+        template: '<div class="loader"><svg class="circular"><circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/></svg></div>'
+    });
 
-  internalDb.openDb()
-  .then(function(data){
-  });
+    internalDb.openDb()
+    .then(function(data){
+    });
 
-  internalDb.createTable()
-  .then(function(data){
-  });
+    internalDb.createTable()
+    .then(function(data){
+    });
 
-  internalDb.updateCurrentUser()
-  .then(function(data){
-    $ionicLoading.hide();
-    $rootScope.checkingLoggedIn = false;
-    if(data != null){
-      if(data.user_id == undefined || data.phone == undefined || data.email == undefined || data.user_id == "undefined" || data.phone == "undefined" || data.email == "undefined"){
-        internalDb.deleteLoggedIn()
-        .then(function(data){
-          $state.go("init");
-        });
-      }else{
-        $rootScope.currentUser = data;
-        $rootScope.token = data.token;
-        $rootScope.loggedIn = true;
-        if($rootScope.currentUser.status === 'Active'){
-          $state.go("app.home");
+    internalDb.updateCurrentUser()
+    .then(function(data){
+      console.log("updateCurrentUser completed", data);
+      $ionicLoading.hide();
+      $rootScope.checkingLoggedIn = false;
+      if(data != null){
+        if(data.user_id == undefined || data.phone == undefined || data.email == undefined || data.user_id == "undefined" || data.phone == "undefined" || data.email == "undefined"){
+          internalDb.deleteLoggedIn()
+          .then(function(data){
+            $rootScope.clearCurrentUser();
+            $state.go("init");
+          });
         }else{
-          $rootScope.setPasscode();
+          $rootScope.currentUser = data;
+          $rootScope.token = data.token;
+          $rootScope.loggedIn = true;
+          if($rootScope.currentUser.status === 'Active'){
+            $state.go("app.home");
+          }else{
+            $rootScope.setPasscode();
+          }
         }
+      }else{
+        $state.go("index");
       }
-    }else{
-      $state.go("index");
-    }
-  });
+    })
+    .catch(function(err){
+      console.log("updateCurrentUser error", err);
+    });
+  }
+
 })
 
 .controller('IndexCtrl', function ($scope, $rootScope, $state, $ionicModal, $ionicPopover, $timeout) {
@@ -366,6 +385,7 @@ app
                 if(data.user_id == undefined || data.phone == undefined || data.email == undefined || data.user_id == "undefined" || data.phone == "undefined" || data.email == "undefined"){
                   internalDb.deleteLoggedIn()
                   .then(function(data){
+                    $rootScope.clearCurrentUser();
                     $state.go("init");
                   });
                 }else{
@@ -978,8 +998,12 @@ app
             if(response.error != undefined){
               if(response.error == '401'){
                 internalDb.deleteLoggedIn()
-                .then(function(){
+                .then(function(data){
+                  $rootScope.clearCurrentUser();
                   $state.go('init');
+                })
+                .catch(function(err){
+                  console.log(err);
                 })
               }
             }
@@ -1652,7 +1676,7 @@ app
   };
 })
 
-.controller('LotteriesCtrl', function ($scope, $rootScope, $state, $stateParams, $cordovaDialogs, $ionicLoading, ionicMaterialInk, Api) {
+.controller('LotteriesCtrl', function ($scope, $rootScope, $state, $stateParams, $cordovaDialogs, $ionicLoading, ionicMaterialInk, Api, internalDb) {
   $scope.loading = true;
   $scope.error = false;
   $scope.message = "";
@@ -1697,8 +1721,19 @@ app
             }
           }
         }else{
-          $scope.error = true;
-          $scope.message = response.error;
+          if(response.error == '401'){
+            internalDb.deleteLoggedIn()
+            .then(function(data){
+              $rootScope.clearCurrentUser();
+              $state.go('init');
+            })
+            .catch(function(err){
+              console.log(err);
+            })
+          }else{
+            $scope.error = true;
+            $scope.message = response.error;
+          }
         }
       })
       .catch(function(error){
@@ -1722,7 +1757,7 @@ app
   };
 })
 
-.controller('LotteryDetailCtrl', function ($scope, $rootScope, $state, $stateParams, $cordovaDialogs, $ionicLoading, ionicMaterialInk, Api) {
+.controller('LotteryDetailCtrl', function ($scope, $rootScope, $state, $stateParams, $cordovaDialogs, $ionicLoading, ionicMaterialInk, Api, internalDb) {
   $scope.loading = true;
   $scope.error = false;
   $scope.message = "";
@@ -1754,8 +1789,19 @@ app
           if(response.success == true){
             $scope.lottery = response.data;
           }else{
-            $scope.error = true;
-            $scope.message = response.error;
+            if(response.error == '401'){
+              internalDb.deleteLoggedIn()
+              .then(function(data){
+                $rootScope.clearCurrentUser();
+                $state.go('init');
+              })
+              .catch(function(err){
+                console.log(err);
+              })
+            }else{
+              $scope.error = true;
+              $scope.message = response.data;
+            }
           }
         })
         .catch(function(error){
@@ -1772,7 +1818,7 @@ app
   };
 })
 
-.controller('TicketsCtrl', function ($scope, $rootScope, $state, $stateParams, $cordovaDialogs, $ionicLoading, ionicMaterialInk, Api) {
+.controller('TicketsCtrl', function ($scope, $rootScope, $state, $stateParams, $cordovaDialogs, $ionicLoading, ionicMaterialInk, Api, internalDb) {
   $scope.loading = true;
   $scope.error = false;
   $scope.message = "";
@@ -1817,8 +1863,19 @@ app
             }
           }
         }else{
-          $scope.error = true;
-          $scope.message = response.error;
+          if(response.error == '401'){
+            internalDb.deleteLoggedIn()
+            .then(function(data){
+              $rootScope.clearCurrentUser();
+              $state.go('init');
+            })
+            .catch(function(err){
+              console.log(err);
+            })
+          }else{
+            $scope.error = true;
+            $scope.message = response.data;
+          }
         }
       })
       .catch(function(error){
@@ -2134,7 +2191,7 @@ app
   }
 })
 
-.controller('ProfileCtrl', function ($scope, $rootScope, $ionicPopover, $ionicPopup, $ionicActionSheet, $state, $stateParams, $cordovaDialogs, $ionicLoading, ionicMaterialInk, Api, Server) {
+.controller('ProfileCtrl', function ($scope, $rootScope, $ionicPopover, $ionicPopup, $ionicActionSheet, $state, $stateParams, $cordovaDialogs, $ionicLoading, ionicMaterialInk, Api, Server, internalDb) {
   $scope.serverBase = Server.serverBase;
   $scope.loading = true;
   $scope.error = false;
@@ -2168,8 +2225,19 @@ app
             $scope.profileDetails = response.data;
             $scope.profileDetails.phone = $scope.profileDetails.phone.replace(response.data.country_code, '');
           }else{
-            $scope.error = true;
-            $scope.message = response.data;
+            if(response.error == '401'){
+              internalDb.deleteLoggedIn()
+              .then(function(data){
+                $rootScope.clearCurrentUser();
+                $state.go('init');
+              })
+              .catch(function(err){
+                console.log(err);
+              })
+            }else{
+              $scope.error = true;
+              $scope.message = response.data;
+            }
           }
         })
         .catch(function(error){

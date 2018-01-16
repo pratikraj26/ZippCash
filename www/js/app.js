@@ -125,6 +125,15 @@ app
             }
         }
     })
+    .state('app.messages', {
+        url: '/messages',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/messages.html',
+                controller: 'MessagesCtrl'
+            }
+        }
+    })
     .state('app.lottery-detail', {
         url: '/lottery/detail/:id',
         views: {

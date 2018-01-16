@@ -1,0 +1,29 @@
+<ion-view view-title="Messages">
+    <ion-content>
+      <div class="text-center padding" ng-show="loading">
+        <ion-spinner class="spinner-balanced"></ion-spinner>
+      </div>
+      <div style = "height:100%;" ng-show="!loading">
+        <div class="item" ng-show="error">
+          <h1 style = "color:#cfcfcf;text-align:center">{{message}}</h1>
+        </div>
+        <div ng-show="!error" style = "height:100%;">
+          <ion-list>
+          	<ion-item ng-repeat="message in message_list" ng-class="{'unread' : message.status === 'unread'}" class="item">
+              <h2>
+                ZippCash
+                <span class="datetime" style="font-size: 10px; font-weight: 100; color: #999;">{{message.datetime | amDateFormat:'DD, MM YYYY'}}</span>
+              </h2>
+              <p>{{message.message_body}}</p>
+          	</ion-item>
+          </ion-list>
+
+          <ion-infinite-scroll on-infinite="loadMore()" distance="5%" ng-if="hasMoreData"></ion-infinite-scroll>
+
+          <div ng-show="!hasMoreData">
+            <h3 style = "color:#cfcfcf;text-align:center">No messages to show</h3>
+          </div>
+        </div>
+      </div>
+    </ion-content>
+</ion-view>

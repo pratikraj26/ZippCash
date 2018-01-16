@@ -658,3 +658,17 @@ body {
 .datepicker-modal div{
   font-size: 78%;
 }
+.datetime{
+    font-size: 10px;
+    color: #999;
+}
+.unread{
+    background: #EEE;
+}
+.messageCount{
+    display: inline-block;
+    background: red;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 50%;
+}

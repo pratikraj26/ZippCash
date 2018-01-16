@@ -196,8 +196,78 @@ app
         var cb = callback || angular.noop;
         var deferred = $q.defer();
         $http.post(Config.apiBase, {
+          controller : 'user',
+          action : 'getLotteryList',
+          count : data.count
+        }).
+        success(function(data) {
+          deferred.resolve(data);
+          return cb();
+        }).
+        error(function(err) {
+          console.log (err );
+          deferred.reject(err);
+          return cb(err);
+        }.bind(this));
+        return deferred.promise;
+      },
+      /**
+       * Get unread message count
+       *
+       * @return {object}
+       */
+      getUnreadMessageCount: function(data, callback) {
+        var cb = callback || angular.noop;
+        var deferred = $q.defer();
+        $http.post(Config.apiBase, {
+          controller : 'user',
+          action : 'getUnreadMessageCount',
+        }).
+        success(function(data) {
+          deferred.resolve(data);
+          return cb();
+        }).
+        error(function(err) {
+          console.log (err );
+          deferred.reject(err);
+          return cb(err);
+        }.bind(this));
+        return deferred.promise;
+      },
+      /**
+       * Mark messages as read
+       *
+       * @return {object}
+       */
+      markMessageAsRead: function(data, callback) {
+        var cb = callback || angular.noop;
+        var deferred = $q.defer();
+        $http.post(Config.apiBase, {
+          controller : 'user',
+          action : 'markMessageAsRead',
+        }).
+        success(function(data) {
+          deferred.resolve(data);
+          return cb();
+        }).
+        error(function(err) {
+          console.log (err );
+          deferred.reject(err);
+          return cb(err);
+        }.bind(this));
+        return deferred.promise;
+      },
+      /**
+       * Get message list
+       *
+       * @return {object}
+       */
+      getMessages: function(data, callback) {
+        var cb = callback || angular.noop;
+        var deferred = $q.defer();
+        $http.post(Config.apiBase, {
     		  controller : 'user',
-    		  action : 'getLotteryList',
+    		  action : 'getUserMessages',
           count : data.count
         }).
         success(function(data) {

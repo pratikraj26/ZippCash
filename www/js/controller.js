@@ -1,15 +1,16 @@
 app
 
-.controller('InitCtrl', function ($scope, $rootScope, $stateParams, $state, $ionicHistory, $ionicLoading, $ionicModal, $q, internalDb, Api) {
+.controller('InitCtrl', function ($scope, $timeout, $rootScope, $stateParams, $state, $ionicHistory, $ionicLoading, $ionicModal, $q, internalDb, Api) {
   $scope.$on( "$ionicView.enter", function( scopes, states ){
     $ionicLoading.show({
         template: '<div class="loader"><svg class="circular"><circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/></svg></div>'
     });
+    $rootScope.unreadMessageCount = 0;
+
     if($rootScope.initExecuted){
       $ionicLoading.hide();
       if($rootScope.loggedIn){
         if($rootScope.currentUser.status === 'Active'){
-          console.log("Redirecting user to home");
           $state.go("app.home");
         }else{
           $rootScope.setPasscode();
@@ -30,6 +31,18 @@ app
   }).then(function(modal) {
     $rootScope.modal = modal;
   });
+
+  $rootScope.getUnreadMessageCount = function(stopRecall){
+    Api.getUnreadMessageCount()
+    .then(function(response){
+      $rootScope.unreadMessageCount = response.unreadMessageCount;
+      if(!stopRecall){
+        $timeout(function(){
+          $rootScope.getUnreadMessageCount();
+        }, 10000)
+      }
+    })
+  }
   $rootScope.clearCurrentUser = function(){
     localStorage.removeItem('phone');
     localStorage.removeItem('country_code');
@@ -938,7 +951,7 @@ app
   $scope.$on( "$ionicView.enter", function( scopes, states ){
     $scope.loading = true;
     $scope.showTimer = false;
-    $scope.waiting = false;
+    $scope.waiting = true;
     $scope.error = false;
     $rootScope.current_lottery = null;
     // $ionicHistory.clearHistory();
@@ -955,6 +968,7 @@ app
   $scope.process = function(){
     if($rootScope.isOnline){
       if($rootScope.loggedIn){
+        $rootScope.getUnreadMessageCount();
         $ionicLoading.show({
             template: '<div class="loader"><svg class="circular"><circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/></svg></div>'
         });
@@ -970,6 +984,8 @@ app
               $scope.showTimer = true;
               if(response.countdown_time < 10){
                 $scope.waiting = true;
+              }else{
+                $scope.waiting = false;
               }
             }else if (response.data.status == 'pending') {
               $scope.showTimer = true;
@@ -992,6 +1008,8 @@ app
                     $scope.last_lottery['evening'] = response.data[i];
                   }
                 }
+                console.log("is waiting >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+                console.log($scope.waiting);
               }
             });
           }else{
@@ -1748,6 +1766,91 @@ app
     if($rootScope.isOnline){
       if($rootScope.loggedIn){
         $scope.loadMore();
+      }else{
+        console.log("You are not loggedIn");
+      }
+    }else{
+      console.log("You are not online");
+    }
+  };
+})
+
+.controller('MessagesCtrl', function ($scope, $rootScope, $state, $stateParams, $cordovaDialogs, $ionicLoading, ionicMaterialInk, Api, internalDb) {
+  $scope.loading = true;
+  $scope.error = false;
+  $scope.message = "";
+  $scope.count = 0;
+  $scope.hasMoreData = true;
+  $scope.message_list = [];
+  $scope.$on( "$ionicView.enter", function( scopes, states ){
+    $scope.loading = true;
+    $scope.error = false;
+    $scope.count = 0;
+    $scope.hasMoreData = true;
+    $scope.message_list = [];
+
+    if(!$rootScope.initExecuted){
+      $state.go("init");
+    }else if(!$rootScope.loggedIn){
+      $state.go("register");
+    }else{
+      $scope.process();
+    }
+  });
+
+  $scope.loadMore = function(){
+    if($scope.hasMoreData){
+      var data = {
+        count : $scope.count
+      };
+      Api.getMessages(data)
+      .then(function(response){
+        $scope.count += 1;
+        $scope.$broadcast('scroll.infiniteScrollComplete');
+        if(response.success == true){
+          if(!response.userMessages.length){
+            $scope.hasMoreData = false;
+          }else{
+            if($scope.message_list.length){
+              for(var i = 0; i < response.userMessages.length; i++){
+                $scope.message_list.push(response.userMessages[i]);
+              }
+            }else{
+              $scope.message_list = response.userMessages;
+            }
+          }
+        }else{
+          if(response.error == '401'){
+            internalDb.deleteLoggedIn()
+            .then(function(data){
+              $rootScope.clearCurrentUser();
+              $state.go('init');
+            })
+            .catch(function(err){
+              console.log(err);
+            })
+          }else{
+            $scope.error = true;
+            $scope.message = response.error;
+          }
+        }
+      })
+      .catch(function(error){
+        $scope.$broadcast('scroll.infiniteScrollComplete');
+        console.log(error);
+      });
+    }
+  };
+
+  $scope.process = function(){
+    $scope.loading = false;
+    if($rootScope.isOnline){
+      if($rootScope.loggedIn){
+        $scope.loadMore();
+        Api.markMessageAsRead()
+        .then(function(){
+          $rootScope.getUnreadMessageCount(true);
+        });
       }else{
         console.log("You are not loggedIn");
       }

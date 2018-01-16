@@ -70,7 +70,7 @@
                 </p>
               </ion-item>
               <ion-item style = "border:0px;" ng-if="last_lottery.evening">
-                <div class="ticker-title"><p>Aswè (<span>{{last_lottery.morning.published_on | amDateFormat:'DD, MM YYYY'}}</span>)</p></div>
+                <div class="ticker-title"><p>Aswè (<span>{{last_lottery.evening.published_on | amDateFormat:'DD, MM YYYY'}}</span>)</p></div>
                 <p class = "balls">
                   <div style = "width:30%;float:left;margin-right:5%;">
                     <span class = "ball">{{last_lottery.evening.lottery_number_1}}</span>
@@ -93,7 +93,7 @@
         </div>
       </div>
     </ion-content>
-    <ion-footer-bar class="bar-energized ng-hide" style = "height:50px;" ng-if = "!waiting">
+    <ion-footer-bar class="bar-energized" style = "height:50px;" ng-if = "!waiting">
         <button class="footer-button button-red full-width" ui-sref ="app.buyticket()" style = "font-weight:bold;height:50px;">
           <span >Achte tikèw</span>
         </button>
